@@ -40,14 +40,22 @@
 
 #include "Randomize.hh"
 
-using namespace B1;
 
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 int main(int argc,char** argv)
 {
+
+  vector<G4double> depthsdEdz = {};
+  G4double stepfordEdz = 1.*CLHEP::mm;
+
+  const G4double = 0.*CLHEP::cm;
+  const G4double = 100*CLHEP::cm;
+
+
+
   // Detect interactive mode (if no arguments) and define UI session
   //
+
   G4UIExecutive* ui = nullptr;
   if ( argc == 1 ) { ui = new G4UIExecutive(argc, argv); }
 

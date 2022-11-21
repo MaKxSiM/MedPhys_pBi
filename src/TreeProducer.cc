@@ -4,27 +4,47 @@ MyRunAction::MyRunAction()
 {
     G4AnalysisManager *man = G4AnalysisManager::Instance();
 
-//fggfgf
+// Fluences for all particles, for a given particle easy to get taking a projection on a particle type
 
-    man->CreateNtuple("Photons", "Photons");
-    man->CreateNtupleIColumn("fEvent");
-    man->CreateNtupleDColumn("fX");
-    man->CreateNtupleDColumn("fY");
-    man->CreateNtupleDColumn("fZ");
-    man->CreateNtupleDColumn("fT");
-    man->CreateNtupleDColumn("fWlen");
+    man->CreateNtuple("Fluences", "Fluences");
+    man->CreateNtupleIColumn("Event");
+    man->CreateNtupleDColumn("X");
+    man->CreateNtupleDColumn("Y");
+    man->CreateNtupleDColumn("Zsurf");
+    man->CreateNtupleDColumn("Energy");
+    man->CreateNtupleIColumn("particle_id");
+    man->CreateNtupleSColumn("material_name_end");
     man->FinishNtuple(0);
 
-    man->CreateNtuple("Hits", "Hits");
-    man->CreateNtupleIColumn("fEvent");
-    man->CreateNtupleDColumn("fX");
-    man->CreateNtupleDColumn("fY");
-    man->CreateNtupleDColumn("fZ");
+// There will be an input vector of various Zs
+
+    man->CreateNtuple("At_fixed_Zs", "At_fixed_Zs");
+    man->CreateNtupleIColumn("Event");
+    man->CreateNtupleDColumn("X");
+    man->CreateNtupleDColumn("Y");
+    man->CreateNtupleDColumn("Zsurf");
+    man->CreateNtupleDColumn("Energy");
+    man->CreateNtupleIColumn("particle_id");
     man->FinishNtuple(1);
 
-    man->CreateNtuple("Scoring", "Scoring");
-    man->CreateNtupleDColumn("fEdep");
+// Differential energy for the primary particle (step will be an input parameter)
+
+    man -> CreateNtuple("dEdz","dEdz");
+    man->CreateNtupleIColumn("Event");
+    man->CreateNtupleDColumn("Edep_MeV");
+    man->CreateNtupleDColumn("Step");
+    man->CreateNtupleDColumn("Z");
+    man->CreateNtupleDColumn("En");
     man->FinishNtuple(2);
+
+// Energy deposited in preconfigured volumes
+
+    man->CreateNtuple("Dose_in_volume_N");
+    man->CreateNtupleIColumn("Event");
+    man->CreateNtupleDColumn("Edep_MeV");
+    man-> CreateNtupleIColumn("VolumeId");
+    man->FinishNtuple(3);
+
 }
 
 MyRunAction::~MyRunAction()
@@ -40,7 +60,9 @@ void MyRunAction::BeginOfRunAction(const G4Run* run)
     strRunID << runID;
 
     man->OpenFile("output"+strRunID.str()+".root");
+    std::vector<double>
 }
+
 
 void MyRunAction::EndOfRunAction(const G4Run*)
 {
