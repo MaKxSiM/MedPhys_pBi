@@ -58,16 +58,44 @@ void MySteppingAction::UserSteppingAction(const G4Step* step)
   // collect energy deposited in this step
   G4double edepStep = step->GetTotalEnergyDeposit();
   G4Track* mytrack = step -> GetTrack ();
-  G4int i_z;
-  G4double distance, xi, yi, zi;
+  G4int i_z, i_p;
+  G4double distance, distance_post, xi, yi, zi, xi_post, yi_post, zi_post, En;
+
+  En = step->GetPostStepPoint()->GetKineticEnergy()/CLHEP::MeV;
+
+  G4AnalysisManager *man = G4AnalysisManager::Instance();
+
   xi = step->GetPreStepPoint()->GetPosition().x();
   yi = step->GetPreStepPoint()->GetPosition().y();
   zi=  step->GetPreStepPoint()->GetPosition().z();
+
+  xi_post = step->GetPostStepPoint()->GetPosition().x();
+  yi_post = step->GetPostStepPoint()->GetPosition().y();
+  zi_post = step->GetPostStepPoint()->GetPosition().z();
+
+
   distance = sqrt( xi*xi + yi*yi + zi*zi ) ;
+  distance_post = sqrt( xi_post*xi_post + yi_post*yi_post + zi_post*zi_post ) ;
+  i_z = int((distance - fRunAction->MinZ)/fRunAction->stepfordEdz);
+  i_p = int((distance_post - fRunAction->MinZ)/fRunAction->stepfordEdz);
 
   if (mytrack->GetTrackID() == 1){
-      i_z = int((distance - fRunAction->MinZ)/fRunAction->stepfordEdz);
     //  std::cout << i_z << std::endl;
-      if ((distance<fRunAction->MaxZ) && i_z>=0) fRunAction->depthsdEdz.at(i_z) = fRunAction->depthsdEdz.at(i_z) + edepStep;
+      if ((distance<fRunAction->MaxZ) && i_z>=0) {
+        fRunAction->vdEdz.at(i_z) = fRunAction->vdEdz.at(i_z) + edepStep;
+      };
+      if (i_p != i_z ){
+        fRunAction->vEn.at(i_z) = En;
+      }
   };
+  if (i_p != i_z ){
+    if (G4RunManager::GetRunManager()->GetCurrentEvent()) man->FillNtupleIColumn(0,0,G4RunManager::GetRunManager()->GetCurrentEvent()->GetEventID());
+    man->FillNtupleDColumn(0,1,yi);
+    man->FillNtupleDColumn(0,2,zi);
+    man->FillNtupleDColumn(0,3,(i_z+1)*fRunAction->stepfordEdz);
+    man->FillNtupleDColumn(0,4,step->GetPreStepPoint()->GetKineticEnergy());
+    man->FillNtupleIColumn(0,5,mytrack->GetDefinition()->GetPDGEncoding());
+    man->FillNtupleSColumn(0,6,mytrack->GetMaterial()->GetName());
+    man->AddNtupleRow(0);
+  }
 }

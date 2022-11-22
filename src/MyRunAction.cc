@@ -3,8 +3,8 @@
 
 MyRunAction::MyRunAction()
 {
-  depthsdEdz = InitializeZVector(MinZ, MaxZ, stepfordEdz);
-
+  vdEdz = InitializeZVector(MinZ, MaxZ, stepfordEdz);
+  vEn = InitializeEnVector(MinZ, MaxZ, stepfordEdz);
 }
 
 MyRunAction::~MyRunAction()
@@ -54,7 +54,6 @@ void MyRunAction::BeginOfRunAction(const G4Run* run)
     // Differential energy for the primary particle (step will be an input parameter)
 
         man -> CreateNtuple("dEdz","dEdz");
-        man->CreateNtupleIColumn("Event");
         man->CreateNtupleDColumn("Edep_MeV");
         man->CreateNtupleDColumn("Step");
         man->CreateNtupleDColumn("Z");
@@ -75,11 +74,29 @@ void MyRunAction::EndOfRunAction(const G4Run*)
 {
     G4AnalysisManager *man = G4AnalysisManager::Instance();
 
+    for (uint i = 0; i<vdEdz.size();i++){
+        man->FillNtupleDColumn(2,0,vdEdz.at(i));
+        man->FillNtupleDColumn(2,1,stepfordEdz);
+        man->FillNtupleDColumn(2,2,i*stepfordEdz);
+        man->FillNtupleDColumn(2,3,vEn.at(i));
+        man->AddNtupleRow(2);
+    }
+
     man->Write();
     man->CloseFile();
 }
 
 std::vector<G4double> MyRunAction::InitializeZVector(G4double Min_Z,G4double Max_Z, G4double step){
+  G4double diff = Max_Z - Min_Z;
+  std::vector<G4double> temp = {};
+  for (int j = 0; j<int(diff/step); j++){
+    temp.push_back(0);
+  };
+  std::cout << temp.size() << std::endl;
+  return temp;
+}
+
+std::vector<G4double> MyRunAction::InitializeEnVector(G4double Min_Z,G4double Max_Z, G4double step){
   G4double diff = Max_Z - Min_Z;
   std::vector<G4double> temp = {};
   for (int j = 0; j<int(diff/step); j++){
