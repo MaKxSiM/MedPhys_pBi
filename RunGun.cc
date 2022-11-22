@@ -29,6 +29,8 @@
 
 #include "DetectorConstruction.hh"
 #include "ActionInitialization.hh"
+#include "MyRunAction.hh"
+
 
 #include "G4RunManagerFactory.hh"
 #include "G4SteppingVerbose.hh"
@@ -45,14 +47,6 @@
 int main(int argc,char** argv)
 {
 
-  vector<G4double> depthsdEdz = {};
-  G4double stepfordEdz = 1.*CLHEP::mm;
-
-  const G4double = 0.*CLHEP::cm;
-  const G4double = 100*CLHEP::cm;
-
-
-
   // Detect interactive mode (if no arguments) and define UI session
   //
 
@@ -68,8 +62,7 @@ int main(int argc,char** argv)
 
   // Construct the default run manager
   //
-  auto* runManager =
-    G4RunManagerFactory::CreateRunManager(G4RunManagerType::Default);
+  auto* runManager = G4RunManagerFactory::CreateRunManager(G4RunManagerType::Default);
 
   // Set mandatory initialization classes
   //
@@ -82,7 +75,7 @@ int main(int argc,char** argv)
   runManager->SetUserInitialization(physicsList);
 
   // User action initialization
-  runManager->SetUserInitialization(new ActionInitialization());
+  runManager->SetUserInitialization(new MyActionInitialization());
 
   // Initialize visualization
   //

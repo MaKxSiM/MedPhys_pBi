@@ -40,10 +40,7 @@
 #include "G4PVPlacement.hh"
 #include "G4SystemOfUnits.hh"
 
-namespace B1
-{
 
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 DetectorConstruction::DetectorConstruction()
 {}
@@ -188,8 +185,4 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   //always return the physical World
   //
   return physWorld;
-}
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
 }

@@ -28,17 +28,14 @@
 /// \brief Implementation of the B1::EventAction class
 
 #include "EventAction.hh"
-#include "RunAction.hh"
+#include "MyRunAction.hh"
 
 #include "G4Event.hh"
 #include "G4RunManager.hh"
 
-namespace B1
-{
-
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-EventAction::EventAction(RunAction* runAction)
+EventAction::EventAction(MyRunAction* runAction)
 : fRunAction(runAction)
 {}
 
@@ -59,9 +56,5 @@ void EventAction::BeginOfEventAction(const G4Event*)
 void EventAction::EndOfEventAction(const G4Event*)
 {
   // accumulate statistics in run action
-  fRunAction->AddEdep(fEdep);
-}
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
+//  fRunAction->AddEdep(fEdep);
 }

@@ -36,15 +36,12 @@
 /// Event action class
 ///
 
-namespace B1
-{
-
-class RunAction;
+class MyRunAction;
 
 class EventAction : public G4UserEventAction
 {
   public:
-    EventAction(RunAction* runAction);
+    EventAction(MyRunAction* runAction);
     ~EventAction() override;
 
     void BeginOfEventAction(const G4Event* event) override;
@@ -53,14 +50,10 @@ class EventAction : public G4UserEventAction
     void AddEdep(G4double edep) { fEdep += edep; }
 
   private:
-    RunAction* fRunAction = nullptr;
+    MyRunAction* fRunAction = nullptr;
     G4double   fEdep = 0.;
 };
-
-}
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 #endif
-
-

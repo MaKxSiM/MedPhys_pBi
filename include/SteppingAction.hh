@@ -39,25 +39,23 @@ class G4LogicalVolume;
 ///
 
 class EventAction;
+class MyRunAction;
 
 class MySteppingAction : public G4UserSteppingAction
 {
   public:
-    MySteppingAction(EventAction* eventAction);
+    MySteppingAction(MyRunAction *runaction,EventAction* eventAction);
     ~MySteppingAction() override;
 
     // method from the base class
     void UserSteppingAction(const G4Step*) override;
-    vector<G4double> SetZVector(vector<G4double>);
-    G4double SetStepdEdX(G4double);
 
   private:
+    MyRunAction* fRunAction = nullptr;
     EventAction* fEventAction = nullptr;
     G4LogicalVolume* fScoringVolume = nullptr;
     G4LogicalVolume* fScoringVolume2 = nullptr;
     G4LogicalVolume* fScoringVolume3 = nullptr;
-    std::vector<G4double> ZdEdx;
-    G4double stepdEdx;
 };
 
 

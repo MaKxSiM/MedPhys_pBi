@@ -29,46 +29,40 @@
 
 #include "ActionInitialization.hh"
 #include "PrimaryGeneratorAction.hh"
-#include "RunAction.hh"
+#include "MyRunAction.hh"
 #include "EventAction.hh"
 #include "SteppingAction.hh"
 
-namespace B1
-{
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-ActionInitialization::ActionInitialization()
+MyActionInitialization::MyActionInitialization()
 {}
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-ActionInitialization::~ActionInitialization()
+MyActionInitialization::~MyActionInitialization()
 {}
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void ActionInitialization::BuildForMaster() const
+void MyActionInitialization::BuildForMaster() const
 {
-  RunAction* runAction = new RunAction;
+  MyRunAction* runAction = new MyRunAction;
   SetUserAction(runAction);
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void ActionInitialization::Build() const
+void MyActionInitialization::Build() const
 {
   SetUserAction(new PrimaryGeneratorAction);
 
-  RunAction* runAction = new RunAction;
+  MyRunAction* runAction = new MyRunAction;
   SetUserAction(runAction);
 
   EventAction* eventAction = new EventAction(runAction);
   SetUserAction(eventAction);
 
-  SetUserAction(new SteppingAction(eventAction));
-}
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
+  SetUserAction(new MySteppingAction(runAction,eventAction));
 }

@@ -30,6 +30,7 @@
 #include "SteppingAction.hh"
 #include "EventAction.hh"
 #include "DetectorConstruction.hh"
+#include "MyRunAction.hh"
 
 #include "G4Step.hh"
 #include "G4Event.hh"
@@ -39,13 +40,14 @@
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-MySteppingAction::SteppingAction(EventAction* eventAction)
-: fEventAction(eventAction)
+MySteppingAction::MySteppingAction(MyRunAction* runAc ,EventAction* eventAction)
+:fRunAction(runAc),
+ fEventAction(eventAction)
 {}
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-MySteppingAction::~SteppingAction()
+MySteppingAction::~MySteppingAction()
 {}
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -53,14 +55,19 @@ MySteppingAction::~SteppingAction()
 
 void MySteppingAction::UserSteppingAction(const G4Step* step)
 {
-  int xid
   // collect energy deposited in this step
   G4double edepStep = step->GetTotalEnergyDeposit();
   G4Track* mytrack = step -> GetTrack ();
+  G4int i_z;
+  G4double distance, xi, yi, zi;
+  xi = step->GetPreStepPoint()->GetPosition().x();
+  yi = step->GetPreStepPoint()->GetPosition().y();
+  zi=  step->GetPreStepPoint()->GetPosition().z();
+  distance = sqrt( xi*xi + yi*yi + zi*zi ) ;
 
-  if (mytrack->GetTrackID() == 1):
-    if (myytrack){
-      edepStep == step->GetPreStepPoint()->GetPosition();
-    }
-
+  if (mytrack->GetTrackID() == 1){
+      i_z = int((distance - fRunAction->MinZ)/fRunAction->stepfordEdz);
+    //  std::cout << i_z << std::endl;
+      if ((distance<fRunAction->MaxZ) && i_z>=0) fRunAction->depthsdEdz.at(i_z) = fRunAction->depthsdEdz.at(i_z) + edepStep;
+  };
 }
