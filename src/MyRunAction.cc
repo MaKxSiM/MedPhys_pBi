@@ -1,5 +1,6 @@
 #include "MyRunAction.hh"
 #include "G4RunManager.hh"
+#include "G4PrimaryVertex.hh"
 
 MyRunAction::MyRunAction()
 {
@@ -100,7 +101,7 @@ std::vector<G4double> MyRunAction::InitializeEnVector(G4double Min_Z,G4double Ma
   G4double diff = Max_Z - Min_Z;
   std::vector<G4double> temp = {};
   for (int j = 0; j<int(diff/step); j++){
-    temp.push_back(0);
+    temp.push_back(-1.);
   };
   std::cout << temp.size() << std::endl;
   return temp;

@@ -48,8 +48,8 @@ MyActionInitialization::~MyActionInitialization()
 
 void MyActionInitialization::BuildForMaster() const
 {
-  MyRunAction* runAction = new MyRunAction;
-  SetUserAction(runAction);
+//  MyRunAction* runAction = new MyRunAction;
+//  SetUserAction(runAction);
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

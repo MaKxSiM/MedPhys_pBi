@@ -43,12 +43,19 @@
 MySteppingAction::MySteppingAction(MyRunAction* runAc ,EventAction* eventAction)
 :fRunAction(runAc),
  fEventAction(eventAction)
-{}
+{
+// initialize with unphysical values
+  distance = -1.;
+  distance_post = -1.;
+  i_z = -1;
+  i_p = -1;
+}
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 MySteppingAction::~MySteppingAction()
-{}
+{
+}
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
@@ -58,10 +65,7 @@ void MySteppingAction::UserSteppingAction(const G4Step* step)
   // collect energy deposited in this step
   G4double edepStep = step->GetTotalEnergyDeposit();
   G4Track* mytrack = step -> GetTrack ();
-  G4int i_z, i_p;
-  G4double distance, distance_post, xi, yi, zi, xi_post, yi_post, zi_post, En;
-
-  En = step->GetPostStepPoint()->GetKineticEnergy()/CLHEP::MeV;
+  G4double xi, yi, zi, xi_post, yi_post, zi_post, xpr, ypr, zpr, En;
 
   G4AnalysisManager *man = G4AnalysisManager::Instance();
 
@@ -73,27 +77,33 @@ void MySteppingAction::UserSteppingAction(const G4Step* step)
   yi_post = step->GetPostStepPoint()->GetPosition().y();
   zi_post = step->GetPostStepPoint()->GetPosition().z();
 
+  xpr = mytrack->GetVertexPosition().x();
+  ypr = mytrack->GetVertexPosition().y();
+  zpr = mytrack->GetVertexPosition().z();
 
-  distance = sqrt( xi*xi + yi*yi + zi*zi ) ;
-  distance_post = sqrt( xi_post*xi_post + yi_post*yi_post + zi_post*zi_post ) ;
-  i_z = int((distance - fRunAction->MinZ)/fRunAction->stepfordEdz);
-  i_p = int((distance_post - fRunAction->MinZ)/fRunAction->stepfordEdz);
+  En = step->GetPreStepPoint()->GetKineticEnergy()/CLHEP::MeV;
+
+// initialize
 
   if (mytrack->GetTrackID() == 1){
-    //  std::cout << i_z << std::endl;
-      if ((distance<fRunAction->MaxZ) && i_z>=0) {
+    distance = sqrt( (xi-xpr)*(xi-xpr) + (yi-ypr)*(yi-ypr) + (zi-zpr)*(zi-zpr) ) ;
+    distance_post = sqrt( (xi_post-xpr)*(xi_post-xpr) + (yi_post-ypr)*(yi_post-ypr) + (zi_post-zpr)*(zi_post-zpr) ) ;
+    i_z = int(distance/fRunAction->stepfordEdz);
+    i_p = int(distance_post/fRunAction->stepfordEdz);
+
+    if ((distance<fRunAction->MaxZ) && i_z>=0) {
         fRunAction->vdEdz.at(i_z) = fRunAction->vdEdz.at(i_z) + edepStep;
-      };
-      if (i_p != i_z ){
-        fRunAction->vEn.at(i_z) = En;
-      }
+        if (i_p != i_z ) fRunAction->vEn.at(i_z) = En;
+    };
   };
-  if (i_p != i_z ){
+
+
+  if ((i_p != i_z) && (i_z>=0) ){
     if (G4RunManager::GetRunManager()->GetCurrentEvent()) man->FillNtupleIColumn(0,0,G4RunManager::GetRunManager()->GetCurrentEvent()->GetEventID());
     man->FillNtupleDColumn(0,1,yi);
     man->FillNtupleDColumn(0,2,zi);
     man->FillNtupleDColumn(0,3,(i_z+1)*fRunAction->stepfordEdz);
-    man->FillNtupleDColumn(0,4,step->GetPreStepPoint()->GetKineticEnergy());
+    man->FillNtupleDColumn(0,4,En);
     man->FillNtupleIColumn(0,5,mytrack->GetDefinition()->GetPDGEncoding());
     man->FillNtupleSColumn(0,6,mytrack->GetMaterial()->GetName());
     man->AddNtupleRow(0);
