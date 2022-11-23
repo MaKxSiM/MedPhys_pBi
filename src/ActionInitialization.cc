@@ -56,7 +56,8 @@ void MyActionInitialization::BuildForMaster() const
 
 void MyActionInitialization::Build() const
 {
-  SetUserAction(new PrimaryGeneratorAction);
+  PrimaryGeneratorAction* generatorAction = new PrimaryGeneratorAction;
+  SetUserAction(generatorAction);
 
   MyRunAction* runAction = new MyRunAction;
   SetUserAction(runAction);
@@ -64,5 +65,5 @@ void MyActionInitialization::Build() const
   EventAction* eventAction = new EventAction(runAction);
   SetUserAction(eventAction);
 
-  SetUserAction(new MySteppingAction(runAction,eventAction));
+  SetUserAction(new MySteppingAction(runAction,eventAction,generatorAction));
 }

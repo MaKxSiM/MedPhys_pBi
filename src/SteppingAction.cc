@@ -31,6 +31,7 @@
 #include "EventAction.hh"
 #include "DetectorConstruction.hh"
 #include "MyRunAction.hh"
+#include "PrimaryGeneratorAction.hh"
 
 #include "G4Step.hh"
 #include "G4Event.hh"
@@ -40,15 +41,15 @@
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-MySteppingAction::MySteppingAction(MyRunAction* runAc ,EventAction* eventAction)
+MySteppingAction::MySteppingAction(MyRunAction* runAc ,EventAction* eventAction, PrimaryGeneratorAction* generatorAction)
 :fRunAction(runAc),
- fEventAction(eventAction)
+ fEventAction(eventAction),
+ fGeneratorAction(generatorAction)
 {
 // initialize with unphysical values
-  xpr = -100.;
-  ypr = -100;
-  zpr = -100.;
-  primary_flag = false;
+  xpr = fGeneratorAction->GetParticleGun()->GetParticlePosition().x();
+  ypr = fGeneratorAction->GetParticleGun()->GetParticlePosition().y();
+  zpr = fGeneratorAction->GetParticleGun()->GetParticlePosition().z();
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -78,14 +79,6 @@ void MySteppingAction::UserSteppingAction(const G4Step* step)
   yi_post = step->GetPostStepPoint()->GetPosition().y();
   zi_post = step->GetPostStepPoint()->GetPosition().z();
 
-// initialize
-
-  if (mytrack->GetTrackID() == 1){
-    xpr = mytrack->GetVertexPosition().x();
-    ypr = mytrack->GetVertexPosition().y();
-    zpr = mytrack->GetVertexPosition().z();
-    primary_flag = true;
-  }
 
   distance = sqrt( (xi-xpr)*(xi-xpr) + (yi-ypr)*(yi-ypr) + (zi-zpr)*(zi-zpr) ) ;
   distance_post = sqrt( (xi_post-xpr)*(xi_post-xpr) + (yi_post-ypr)*(yi_post-ypr) + (zi_post-zpr)*(zi_post-zpr) ) ;
@@ -101,7 +94,7 @@ void MySteppingAction::UserSteppingAction(const G4Step* step)
   };
 
 
-  if ((i_p != i_z) && (i_z>=0) && primary_flag){
+  if ((i_p != i_z) && (i_z>=0)){
     if (G4RunManager::GetRunManager()->GetCurrentEvent()){
       man->FillNtupleIColumn(0,0,G4RunManager::GetRunManager()->GetCurrentEvent()->GetEventID());
       man->FillNtupleDColumn(0,1,yi);
