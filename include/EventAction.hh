@@ -37,20 +37,24 @@
 ///
 
 class MyRunAction;
+class PrimaryGeneratorAction;
 
 class EventAction : public G4UserEventAction
 {
   public:
-    EventAction(MyRunAction* runAction);
+    EventAction(MyRunAction* runAction, PrimaryGeneratorAction* generatorAction);
     ~EventAction() override;
 
     void BeginOfEventAction(const G4Event* event) override;
     void EndOfEventAction(const G4Event* event) override;
 
-    void AddEdep(G4double edep) { fEdep += edep; }
+    void AddEdep(G4double edep) { fEdep += edep; };
+
+    G4double xprime, yprime, zprime;
 
   private:
     MyRunAction* fRunAction = nullptr;
+    PrimaryGeneratorAction* fGeneratorAction;
     G4double   fEdep = 0.;
 };
 

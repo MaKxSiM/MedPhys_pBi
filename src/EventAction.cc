@@ -29,14 +29,17 @@
 
 #include "EventAction.hh"
 #include "MyRunAction.hh"
+#include "PrimaryGeneratorAction.hh"
+
 
 #include "G4Event.hh"
 #include "G4RunManager.hh"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-EventAction::EventAction(MyRunAction* runAction)
-: fRunAction(runAction)
+EventAction::EventAction(MyRunAction* runAction, PrimaryGeneratorAction* generatorAction)
+: fRunAction(runAction),
+  fGeneratorAction(generatorAction)
 {}
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -49,6 +52,10 @@ EventAction::~EventAction()
 void EventAction::BeginOfEventAction(const G4Event*)
 {
   fEdep = 0.;
+  // get primary vertex
+  xprime = fGeneratorAction->GetParticleGun()->GetParticlePosition().x();
+  yprime = fGeneratorAction->GetParticleGun()->GetParticlePosition().y();
+  zprime = fGeneratorAction->GetParticleGun()->GetParticlePosition().z();
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

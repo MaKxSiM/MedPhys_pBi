@@ -48,8 +48,8 @@ MyActionInitialization::~MyActionInitialization()
 
 void MyActionInitialization::BuildForMaster() const
 {
-//  MyRunAction* runAction = new MyRunAction;
-//  SetUserAction(runAction);
+   MyRunAction* runAction = new MyRunAction;
+   SetUserAction(runAction);
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -62,8 +62,8 @@ void MyActionInitialization::Build() const
   MyRunAction* runAction = new MyRunAction;
   SetUserAction(runAction);
 
-  EventAction* eventAction = new EventAction(runAction);
+  EventAction* eventAction = new EventAction(runAction,generatorAction);
   SetUserAction(eventAction);
 
-  SetUserAction(new MySteppingAction(runAction,eventAction,generatorAction));
+  SetUserAction(new MySteppingAction(runAction,eventAction));
 }

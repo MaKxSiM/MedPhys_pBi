@@ -40,12 +40,11 @@ class G4LogicalVolume;
 
 class EventAction;
 class MyRunAction;
-class PrimaryGeneratorAction;
 
 class MySteppingAction : public G4UserSteppingAction
 {
   public:
-    MySteppingAction(MyRunAction *runaction,EventAction* eventAction, PrimaryGeneratorAction *generatorAction);
+    MySteppingAction(MyRunAction *runaction,EventAction* eventAction);
     ~MySteppingAction() override;
 
     // method from the base class
@@ -54,11 +53,9 @@ class MySteppingAction : public G4UserSteppingAction
   private:
     MyRunAction* fRunAction = nullptr;
     EventAction* fEventAction = nullptr;
-    PrimaryGeneratorAction* fGeneratorAction;
     G4LogicalVolume* fScoringVolume = nullptr;
     G4LogicalVolume* fScoringVolume2 = nullptr;
     G4LogicalVolume* fScoringVolume3 = nullptr;
-    G4double xpr, ypr, zpr;
 };
 
 
