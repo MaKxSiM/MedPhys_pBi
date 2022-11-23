@@ -33,8 +33,8 @@
   GraphAttr ModelAttr[] = {
   	{ 4, 21, 2.0, 1.2, "protons", "" },
   	{ 3, 33, 2.0, 1.5, "neutrons", "same" },
-  	{ 2, 34, 2.0, 1.5, "photons", "same" },
-  	{ 45, 29, 2.0, 1.6, "electrons", "same" },
+  	{ 2, 34, 2.0, 1.5, "electrons", "same" },
+  	{ 45, 29, 2.0, 1.6, "photons", "same" },
   };
 
   vector<int> PIDofInterest;
@@ -71,7 +71,6 @@
 //====================  Making plots   =========================================
 
 c1 = new TCanvas("c1", "c1", 960, 720);
-c1->cd();
 
 hFluence[0]->GetYaxis()->SetTickLength(0.02);
 hFluence[0]->GetYaxis()->SetNdivisions(505);
@@ -79,7 +78,7 @@ hFluence[0]->GetXaxis()->CenterTitle();
 hFluence[0]->GetYaxis()->CenterTitle();
 hFluence[0]->GetXaxis()->SetTitle("Distance, mm");
 hFluence[0]->GetYaxis()->SetTitle("Fluence, N_{particle}/slice");
-//hFluence[0] ->GetXaxis()->SetRangeUser(myAttr[visObs].x1, myAttr[visObs].x2);
+//hFluence[0] ->GetXaxis()->SetRangeUser(x1, x2);
 hFluence[0] ->GetYaxis()->SetTitleSize(0.045*TextSizeScale);
 hFluence[0]->GetYaxis()->SetTitleOffset(1.2);
 hFluence[0]->GetXaxis()->SetTitleSize(0.045*TextSizeScale);
