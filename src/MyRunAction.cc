@@ -15,12 +15,7 @@ void MyRunAction::BeginOfRunAction(const G4Run* run)
 {
     G4AnalysisManager *man = G4AnalysisManager::Instance();
 
-    G4int runID = run->GetRunID();
-
-    std::stringstream strRunID;
-    strRunID << runID;
-
-    man->OpenFile("output"+strRunID.str()+".root");
+    man->OpenFile("output.root");
 
     // set printing event number per each event
     G4RunManager::GetRunManager()->SetPrintProgress(1);
@@ -93,7 +88,6 @@ std::vector<G4double> MyRunAction::InitializeZVector(G4double Min_Z,G4double Max
   for (int j = 0; j<int(diff/step); j++){
     temp.push_back(0);
   };
-  std::cout << temp.size() << std::endl;
   return temp;
 }
 
@@ -103,6 +97,5 @@ std::vector<G4double> MyRunAction::InitializeEnVector(G4double Min_Z,G4double Ma
   for (int j = 0; j<int(diff/step); j++){
     temp.push_back(-1.);
   };
-  std::cout << temp.size() << std::endl;
   return temp;
 }

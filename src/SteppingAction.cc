@@ -99,13 +99,15 @@ void MySteppingAction::UserSteppingAction(const G4Step* step)
 
 
   if ((i_p != i_z) && (i_z>=0) ){
-    if (G4RunManager::GetRunManager()->GetCurrentEvent()) man->FillNtupleIColumn(0,0,G4RunManager::GetRunManager()->GetCurrentEvent()->GetEventID());
-    man->FillNtupleDColumn(0,1,yi);
-    man->FillNtupleDColumn(0,2,zi);
-    man->FillNtupleDColumn(0,3,(i_z+1)*fRunAction->stepfordEdz);
-    man->FillNtupleDColumn(0,4,En);
-    man->FillNtupleIColumn(0,5,mytrack->GetDefinition()->GetPDGEncoding());
-    man->FillNtupleSColumn(0,6,mytrack->GetMaterial()->GetName());
-    man->AddNtupleRow(0);
+    if (G4RunManager::GetRunManager()->GetCurrentEvent()){
+      man->FillNtupleIColumn(0,0,G4RunManager::GetRunManager()->GetCurrentEvent()->GetEventID());
+      man->FillNtupleDColumn(0,1,yi);
+      man->FillNtupleDColumn(0,2,zi);
+      man->FillNtupleDColumn(0,3,(i_z+1)*fRunAction->stepfordEdz);
+      man->FillNtupleDColumn(0,4,En);
+      man->FillNtupleIColumn(0,5,mytrack->GetDefinition()->GetPDGEncoding());
+      man->FillNtupleSColumn(0,6,mytrack->GetMaterial()->GetName());
+      man->AddNtupleRow(0);
+    }
   }
 }

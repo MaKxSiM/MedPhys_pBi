@@ -39,6 +39,7 @@
 
 #include "G4VisExecutive.hh"
 #include "G4UIExecutive.hh"
+#include "G4StepLimiterPhysics.hh"
 
 #include "Randomize.hh"
 
@@ -72,6 +73,7 @@ int main(int argc,char** argv)
   // Physics list
   G4VModularPhysicsList* physicsList = new QBBC;
   physicsList->SetVerboseLevel(1);
+  physicsList->RegisterPhysics(new G4StepLimiterPhysics());
   runManager->SetUserInitialization(physicsList);
 
   // User action initialization

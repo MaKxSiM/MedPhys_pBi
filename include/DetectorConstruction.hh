@@ -31,6 +31,7 @@
 #define B1DetectorConstruction_h 1
 
 #include "G4VUserDetectorConstruction.hh"
+#include "G4UserLimits.hh"
 #include "globals.hh"
 
 class G4VPhysicalVolume;
@@ -48,6 +49,9 @@ class DetectorConstruction : public G4VUserDetectorConstruction
     G4VPhysicalVolume* Construct() override;
 
     G4LogicalVolume* GetScoringVolume() const { return fScoringVolume; }
+
+  private:
+    G4UserLimits* fStepLimit = nullptr;
 
   protected:
     G4LogicalVolume* fScoringVolume = nullptr;
