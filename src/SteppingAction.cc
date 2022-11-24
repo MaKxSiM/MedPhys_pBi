@@ -108,7 +108,8 @@ void MySteppingAction::UserSteppingAction(const G4Step* step)
       man->FillNtupleDColumn(0,3,i_z_fluence*fRunAction->stepforfluence);
       man->FillNtupleDColumn(0,4,En);
       man->FillNtupleIColumn(0,5,mytrack->GetDefinition()->GetPDGEncoding());
-      man->FillNtupleSColumn(0,6,mytrack->GetMaterial()->GetName());
+      man->FillNtupleSColumn(0,6,mytrack->GetDefinition()->GetParticleName());
+      man->FillNtupleSColumn(0,7,mytrack->GetMaterial()->GetName());
       man->AddNtupleRow(0);
     }
   }
