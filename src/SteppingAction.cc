@@ -92,10 +92,10 @@ void MySteppingAction::UserSteppingAction(const G4Step* step)
   if (mytrack->GetTrackID() == 1){
     if (fEventAction->distdEdx<fRunAction->MaxZ) {
         i_z_dEdx = int(fEventAction->distdEdx/fRunAction->stepfordEdz);
-        fRunAction->vdEdz.at(i_z_dEdx) = fRunAction->vdEdz.at(i_z_dEdx) + edepStep;
+        fEventAction->vdEdz.at(i_z_dEdx) = fEventAction->vdEdz.at(i_z_dEdx) + edepStep;
         fEventAction->distdEdx+= stepdist;
         i_p_dEdx = int(fEventAction->distdEdx/fRunAction->stepfordEdz);
-        if (i_p_dEdx != i_z_dEdx ) fRunAction->vEn.at(i_z_dEdx) = En;
+        if (i_p_dEdx != i_z_dEdx ) fEventAction->vEn.at(i_z_dEdx) = En;
     };
   };
 

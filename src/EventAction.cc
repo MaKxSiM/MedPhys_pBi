@@ -60,12 +60,44 @@ void EventAction::BeginOfEventAction(const G4Event*)
   xprime = fGeneratorAction->GetParticleGun()->GetParticlePosition().x();
   yprime = fGeneratorAction->GetParticleGun()->GetParticlePosition().y();
   zprime = fGeneratorAction->GetParticleGun()->GetParticlePosition().z();
+
+  vdEdz = InitializeZVector(fRunAction->MinZ, fRunAction->MaxZ, fRunAction->stepfordEdz);
+  vEn = InitializeEnVector(fRunAction->MinZ, fRunAction->MaxZ, fRunAction->stepforfluence);
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 void EventAction::EndOfEventAction(const G4Event*)
 {
-  // accumulate statistics in run action
-//  fRunAction->AddEdep(fEdep);
+
+  G4AnalysisManager *man = G4AnalysisManager::Instance();
+
+  for (uint i = 0; i<vdEdz.size();i++){
+    if (vEn.at(i)>-0.1){
+      man->FillNtupleDColumn(1,0,vdEdz.at(i));
+      man->FillNtupleDColumn(1,1,fRunAction->stepfordEdz);
+      man->FillNtupleDColumn(1,2,i*fRunAction->stepfordEdz);
+      man->FillNtupleDColumn(1,3,vEn.at(i));
+      man->AddNtupleRow(1);
+    }
+  }
+}
+
+
+std::vector<G4double> EventAction::InitializeZVector(G4double Min_Z,G4double Max_Z, G4double step){
+    G4double diff = Max_Z - Min_Z;
+    std::vector<G4double> temp = {};
+    for (int j = 0; j<int(diff/step); j++){
+      temp.push_back(0);
+    };
+    return temp;
+}
+
+std::vector<G4double> EventAction::InitializeEnVector(G4double Min_Z,G4double Max_Z, G4double step){
+    G4double diff = Max_Z - Min_Z;
+    std::vector<G4double> temp = {};
+    for (int j = 0; j<int(diff/step); j++){
+      temp.push_back(-1.);
+    };
+    return temp;
 }

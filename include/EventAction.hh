@@ -51,6 +51,11 @@ class EventAction : public G4UserEventAction
     void AddEdep(G4double edep) { fEdep += edep; };
 
     G4double xprime, yprime, zprime, distdEdx;
+    std::vector<G4double> vdEdz;
+    std::vector<G4double> vEn;
+
+    std::vector<G4double> InitializeZVector(G4double min, G4double max, G4double step);
+    std::vector<G4double> InitializeEnVector(G4double min, G4double max, G4double step);  
 
   private:
     MyRunAction* fRunAction = nullptr;
