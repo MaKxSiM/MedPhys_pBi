@@ -23,3 +23,5 @@ A. How to run
      /run/beamOn 10
  
   Enjoy!
+
+Now working with devs. Next stage: make multithreading work properly. If implemented correctly, as I understand, all "t*." files should combine into a single output file. Right now this file is produced but cannot be openned (hint buildformaster() method in ActionInitiallization.cc).   
