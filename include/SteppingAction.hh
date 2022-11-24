@@ -56,6 +56,8 @@ class MySteppingAction : public G4UserSteppingAction
     G4LogicalVolume* fScoringVolume = nullptr;
     G4LogicalVolume* fScoringVolume2 = nullptr;
     G4LogicalVolume* fScoringVolume3 = nullptr;
+    G4double xprev, yprev, zprev;
+    G4bool first_dedz_step;
 };
 
 

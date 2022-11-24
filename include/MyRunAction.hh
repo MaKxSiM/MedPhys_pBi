@@ -22,11 +22,7 @@ public:
 
     const G4double stepfordEdz = 1.* CLHEP::mm;
 
-    std::vector<G4double> vdEdz;
-    std::vector<G4double> vEn;
-
-    std::vector<G4double> InitializeZVector(G4double min, G4double max, G4double step);
-    std::vector<G4double> InitializeEnVector(G4double min, G4double max, G4double step);
+    const G4double stepforfluence = 1.* CLHEP::mm;    
 
 };
 
