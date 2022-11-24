@@ -4,8 +4,6 @@
 
 MyRunAction::MyRunAction()
 {
-  vdEdz = InitializeZVector(MinZ, MaxZ, stepfordEdz);
-  vEn = InitializeEnVector(MinZ, MaxZ, stepfordEdz);
 }
 
 MyRunAction::~MyRunAction()
@@ -14,6 +12,9 @@ MyRunAction::~MyRunAction()
 void MyRunAction::BeginOfRunAction(const G4Run* run)
 {
     G4AnalysisManager *man = G4AnalysisManager::Instance();
+
+    vdEdz = InitializeZVector(MinZ, MaxZ, stepfordEdz);
+    vEn = InitializeEnVector(MinZ, MaxZ, stepforfluence);
 
     man->OpenFile("output.root");
 
@@ -71,11 +72,13 @@ void MyRunAction::EndOfRunAction(const G4Run*)
     G4AnalysisManager *man = G4AnalysisManager::Instance();
 
     for (uint i = 0; i<vdEdz.size();i++){
+      if (vEn.at(i)>-0.1){
         man->FillNtupleDColumn(2,0,vdEdz.at(i));
         man->FillNtupleDColumn(2,1,stepfordEdz);
         man->FillNtupleDColumn(2,2,i*stepfordEdz);
         man->FillNtupleDColumn(2,3,vEn.at(i));
         man->AddNtupleRow(2);
+      }
     }
 
     man->Write();

@@ -22,6 +22,8 @@ public:
 
     const G4double stepfordEdz = 1.* CLHEP::mm;
 
+    const G4double stepforfluence = 1.* CLHEP::mm;    
+
     std::vector<G4double> vdEdz;
     std::vector<G4double> vEn;
 

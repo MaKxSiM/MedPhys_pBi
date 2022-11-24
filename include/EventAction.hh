@@ -50,7 +50,7 @@ class EventAction : public G4UserEventAction
 
     void AddEdep(G4double edep) { fEdep += edep; };
 
-    G4double xprime, yprime, zprime;
+    G4double xprime, yprime, zprime, distdEdx;
 
   private:
     MyRunAction* fRunAction = nullptr;

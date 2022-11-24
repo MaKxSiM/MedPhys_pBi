@@ -60,8 +60,9 @@ void MySteppingAction::UserSteppingAction(const G4Step* step)
   // collect energy deposited in this step
   G4double edepStep = step->GetTotalEnergyDeposit();
   G4Track* mytrack = step -> GetTrack ();
-  G4double xi, yi, zi, xi_post, yi_post, zi_post, En, distance, distance_post, xpr, ypr, zpr;
-  G4int i_z,i_p;
+  G4double xi, yi, zi, xi_post, yi_post, zi_post, En, stepdist, xpr, ypr, zpr , zdist_fluence_pre, zdist_fluence_post;
+  G4int i_z_dEdx,i_p_dEdx;
+  G4int i_z_fluence,i_p_fluence;
 
   G4AnalysisManager *man = G4AnalysisManager::Instance();
 
@@ -78,26 +79,33 @@ void MySteppingAction::UserSteppingAction(const G4Step* step)
   zpr = fEventAction->zprime;
 
 
-  distance = sqrt( (xi-xpr)*(xi-xpr) + (yi-ypr)*(yi-ypr) + (zi-zpr)*(zi-zpr) ) ;
-  distance_post = sqrt( (xi_post-xpr)*(xi_post-xpr) + (yi_post-ypr)*(yi_post-ypr) + (zi_post-zpr)*(zi_post-zpr) ) ;
-  i_z = int(distance/fRunAction->stepfordEdz);
-  i_p = int(distance_post/fRunAction->stepfordEdz);
+  zdist_fluence_pre = zi - zpr ;
+  zdist_fluence_post = zi_post - zpr ;
+
+  stepdist = sqrt( (xi-xi_post)*(xi-xi_post) + (yi-yi_post)*(yi-yi_post) + (zi-zi_post)*(zi-zi_post) );
+
+
+  i_z_fluence = int(zdist_fluence_pre/fRunAction->stepfordEdz);
+  i_p_fluence = int(zdist_fluence_post/fRunAction->stepfordEdz);
   En = step->GetPreStepPoint()->GetKineticEnergy()/CLHEP::MeV;
 
   if (mytrack->GetTrackID() == 1){
-    if ((distance<fRunAction->MaxZ) && i_z>=0) {
-        fRunAction->vdEdz.at(i_z) = fRunAction->vdEdz.at(i_z) + edepStep;
-        if (i_p != i_z ) fRunAction->vEn.at(i_z) = En;
+    if (fEventAction->distdEdx<fRunAction->MaxZ) {
+        i_z_dEdx = int(fEventAction->distdEdx/fRunAction->stepfordEdz);
+        fRunAction->vdEdz.at(i_z_dEdx) = fRunAction->vdEdz.at(i_z_dEdx) + edepStep;
+        fEventAction->distdEdx+= stepdist;
+        i_p_dEdx = int(fEventAction->distdEdx/fRunAction->stepfordEdz);
+        if (i_p_dEdx != i_z_dEdx ) fRunAction->vEn.at(i_z_dEdx) = En;
     };
   };
 
 
-  if ((i_p != i_z) && (i_z>=0)){
+  if (i_z_fluence != i_p_fluence){
     if (G4RunManager::GetRunManager()->GetCurrentEvent()){
       man->FillNtupleIColumn(0,0,G4RunManager::GetRunManager()->GetCurrentEvent()->GetEventID());
       man->FillNtupleDColumn(0,1,xi);
       man->FillNtupleDColumn(0,2,yi);
-      man->FillNtupleDColumn(0,3,(i_z+1)*fRunAction->stepfordEdz);
+      man->FillNtupleDColumn(0,3,i_z_fluence*fRunAction->stepforfluence);
       man->FillNtupleDColumn(0,4,En);
       man->FillNtupleIColumn(0,5,mytrack->GetDefinition()->GetPDGEncoding());
       man->FillNtupleSColumn(0,6,mytrack->GetMaterial()->GetName());

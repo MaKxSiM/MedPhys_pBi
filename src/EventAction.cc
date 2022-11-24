@@ -52,7 +52,11 @@ EventAction::~EventAction()
 void EventAction::BeginOfEventAction(const G4Event*)
 {
   fEdep = 0.;
-  // get primary vertex
+// initialize passed distance dE/dx
+
+  distdEdx = 0.;
+
+// get primary vertex
   xprime = fGeneratorAction->GetParticleGun()->GetParticlePosition().x();
   yprime = fGeneratorAction->GetParticleGun()->GetParticlePosition().y();
   zprime = fGeneratorAction->GetParticleGun()->GetParticlePosition().z();
