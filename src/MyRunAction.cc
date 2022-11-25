@@ -20,6 +20,7 @@ MyRunAction::MyRunAction()
   man->CreateNtupleDColumn("Zsurf");
   man->CreateNtupleDColumn("Energy");
   man->CreateNtupleIColumn("particle_id");
+  man->CreateNtupleSColumn("particle_name");
   man->CreateNtupleSColumn("material_name_end");
   man->FinishNtuple(0);
 
