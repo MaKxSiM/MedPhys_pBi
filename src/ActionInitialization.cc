@@ -48,7 +48,7 @@ MyActionInitialization::~MyActionInitialization()
 
 void MyActionInitialization::BuildForMaster() const
 {
-   MyRunAction* runAction = new MyRunAction;
+   MyRunAction* runAction = new MyRunAction();
    SetUserAction(runAction);
 }
 
@@ -59,7 +59,7 @@ void MyActionInitialization::Build() const
   PrimaryGeneratorAction* generatorAction = new PrimaryGeneratorAction;
   SetUserAction(generatorAction);
 
-  MyRunAction* runAction = new MyRunAction;
+  MyRunAction* runAction = new MyRunAction();
   SetUserAction(runAction);
 
   EventAction* eventAction = new EventAction(runAction,generatorAction);

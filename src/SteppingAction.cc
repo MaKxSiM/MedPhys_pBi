@@ -58,6 +58,7 @@ MySteppingAction::~MySteppingAction()
 void MySteppingAction::UserSteppingAction(const G4Step* step)
 {
   // collect energy deposited in this step
+
   G4double edepStep = step->GetTotalEnergyDeposit();
   G4Track* mytrack = step -> GetTrack ();
   G4double xi, yi, zi, xi_post, yi_post, zi_post, En, stepdist, xpr, ypr, zpr , zdist_fluence_pre, zdist_fluence_post;
@@ -85,8 +86,8 @@ void MySteppingAction::UserSteppingAction(const G4Step* step)
   stepdist = sqrt( (xi-xi_post)*(xi-xi_post) + (yi-yi_post)*(yi-yi_post) + (zi-zi_post)*(zi-zi_post) );
 
 
-  i_z_fluence = int(zdist_fluence_pre/fRunAction->stepfordEdz);
-  i_p_fluence = int(zdist_fluence_post/fRunAction->stepfordEdz);
+  i_z_fluence = int(zdist_fluence_pre/fRunAction->stepforfluence);
+  i_p_fluence = int(zdist_fluence_post/fRunAction->stepforfluence);
   En = step->GetPreStepPoint()->GetKineticEnergy()/CLHEP::MeV;
 
   if (mytrack->GetTrackID() == 1){
@@ -112,5 +113,17 @@ void MySteppingAction::UserSteppingAction(const G4Step* step)
       man->FillNtupleSColumn(0,7,mytrack->GetMaterial()->GetName());
       man->AddNtupleRow(0);
     }
-  }
+  };
+  G4VPhysicalVolume* volume  = step->GetPreStepPoint()->GetTouchableHandle()->GetVolume();
+  if (fScoringVolumes.size() == 0) {
+      const DetectorConstruction* detConstruction = static_cast<const DetectorConstruction*>(G4RunManager::GetRunManager()->GetUserDetectorConstruction());
+      fScoringVolumes = detConstruction->GetScoringVolumes();
+  };
+  for (uint i = 0; i<fScoringVolumes.size(); i++){
+    if (volume == fScoringVolumes.at(i)){
+      // collect energy deposited in this step
+        fEventAction->AddEdep(edepStep,i);
+    };
+  };
+
 }

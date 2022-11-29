@@ -33,7 +33,8 @@
 #include "G4UserSteppingAction.hh"
 #include "globals.hh"
 
-class G4LogicalVolume;
+class G4VPhysicalVolume;
+
 
 /// Stepping action class
 ///
@@ -53,9 +54,7 @@ class MySteppingAction : public G4UserSteppingAction
   private:
     MyRunAction* fRunAction = nullptr;
     EventAction* fEventAction = nullptr;
-    G4LogicalVolume* fScoringVolume = nullptr;
-    G4LogicalVolume* fScoringVolume2 = nullptr;
-    G4LogicalVolume* fScoringVolume3 = nullptr;
+    std::vector<G4VPhysicalVolume*> fScoringVolumes = {};
     G4double xprev, yprev, zprev;
     G4bool first_dedz_step;
 };

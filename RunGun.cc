@@ -62,13 +62,14 @@ int main(int argc,char** argv)
   G4SteppingVerbose::UseBestUnit(precision);
 
   // Construct the default run manager
-  //
+
   auto* runManager = G4RunManagerFactory::CreateRunManager(G4RunManagerType::Default);
 
-  // Set mandatory initialization classes
-  //
   // Detector construction
-  runManager->SetUserInitialization(new DetectorConstruction());
+  DetectorConstruction* detector = new DetectorConstruction;
+
+  // Set mandatory initialization classes
+  runManager->SetUserInitialization(detector);
 
   // Physics list
   G4VModularPhysicsList* physicsList = new QBBC;

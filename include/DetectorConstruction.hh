@@ -33,9 +33,17 @@
 #include "G4VUserDetectorConstruction.hh"
 #include "G4UserLimits.hh"
 #include "globals.hh"
+#include "G4SystemOfUnits.hh"
+#include "G4Box.hh"
+#include "G4Cons.hh"
+#include "G4Orb.hh"
+#include "G4Sphere.hh"
+#include "G4Trd.hh"
+#include "G4PVPlacement.hh"
 
 class G4VPhysicalVolume;
 class G4LogicalVolume;
+class G4Material;
 
 /// Detector construction class to define materials and geometry.
 
@@ -48,13 +56,35 @@ class DetectorConstruction : public G4VUserDetectorConstruction
 
     G4VPhysicalVolume* Construct() override;
 
-    G4LogicalVolume* GetScoringVolume() const { return fScoringVolume; }
+    std::vector<G4VPhysicalVolume*> GetScoringVolumes() const { return fScoringVolumes; }
+
+// Detector parameters
+
+    const G4double shape2_dxy = 20*cm, shape2_dz = 1*cm;
+    const G4double env_sizeXY = 20*cm, env_sizeZ = 35*cm;
+    const G4double sc_vol_st = 3.*CLHEP::cm;
+    const G4ThreeVector pos2 = G4ThreeVector(0, 0, 7*cm);
+
+    const G4String env_mat_name = "G4_WATER";
+    const G4String world_mat_name = "G4_AIR";
+    const G4String shape2_mat_name = "G4_Bi";
+
+    G4double world_sizeXY = 1.2*env_sizeXY;
+    G4double world_sizeZ  = 1.2*env_sizeZ;
+
+    G4Material* shape2_mat;
+    G4Material* env_mat;
+    G4Material* world_mat;
+    G4LogicalVolume* logicEnv,*logicWorld,*logicShape2;
+    G4bool checkOverlaps = true;
 
   private:
     G4UserLimits* fStepLimit = nullptr;
+    void ConstructScoringVolumes();
 
   protected:
-    G4LogicalVolume* fScoringVolume = nullptr;
+    std::vector<G4VPhysicalVolume*> fScoringVolumes {};
+    G4int N_vol;
 };
 
 
