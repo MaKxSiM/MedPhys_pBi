@@ -1,4 +1,4 @@
-# Macro file for the visualization setting in the initialization phase 
+# Macro file for the visualization setting in the initialization phase
 # of the B1 example when running in interactive mode
 #
 
@@ -104,6 +104,9 @@
 /vis/geometry/set/visibility World 0 false
 # "Envelope" is transparent blue to represent water
 /vis/geometry/set/colour Envelope 0 0 0 1 .3
+/vis/geometry/set/colour Layer 0 0 0 1 .3
+/vis/geometry/set/colour LayerPlBi 0 0 0 1 .3
+
 /vis/viewer/set/style surface
 /vis/viewer/set/hiddenMarker true
 /vis/viewer/set/viewpointThetaPhi 120 150

@@ -68,9 +68,10 @@ void EventAction::BeginOfEventAction(const G4Event*)
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
+
 void EventAction::EndOfEventAction(const G4Event*)
 {
-
+  const DetectorConstruction* detConstruction = static_cast<const DetectorConstruction*>(G4RunManager::GetRunManager()->GetUserDetectorConstruction());
   G4AnalysisManager *man = G4AnalysisManager::Instance();
   for (uint i = 0; i<vdEdz.size();i++){
     if (vEn.at(i)>-0.1){
@@ -84,12 +85,13 @@ void EventAction::EndOfEventAction(const G4Event*)
   }
   // accumulate statistics in run action
   for (uint i=0;i<fEdepV.size();i++){
+  // calculate mass to conver t
      if (fEdepV.at(i) > 0.) {
        man->FillNtupleDColumn(2,0,fEdepV.at(i));
        man->FillNtupleIColumn(2,1,i);
        man->FillNtupleIColumn(2,2,G4RunManager::GetRunManager()->GetCurrentEvent()->GetEventID());
        man->AddNtupleRow(2);
-    };   
+    }
   };
 
 
