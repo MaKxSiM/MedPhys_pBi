@@ -72,6 +72,9 @@ void EventAction::BeginOfEventAction(const G4Event*)
 void EventAction::EndOfEventAction(const G4Event*)
 {
   const DetectorConstruction* detConstruction = static_cast<const DetectorConstruction*>(G4RunManager::GetRunManager()->GetUserDetectorConstruction());
+  G4double dose;
+  G4double mass = 0.;
+
   G4AnalysisManager *man = G4AnalysisManager::Instance();
   for (uint i = 0; i<vdEdz.size();i++){
     if (vEn.at(i)>-0.1){
@@ -85,11 +88,20 @@ void EventAction::EndOfEventAction(const G4Event*)
   }
   // accumulate statistics in run action
   for (uint i=0;i<fEdepV.size();i++){
-  // calculate mass to conver t
+  // calculate mass to conver to grays
      if (fEdepV.at(i) > 0.) {
+       if (detConstruction->GetScoringVolumes().at(i)->GetLogicalVolume()->GetName()== "Layer"){
+         mass = detConstruction->GetScoringVolumes().at(i)->GetLogicalVolume()->GetMass();
+       };
+       if (detConstruction->GetScoringVolumes().at(i)->GetLogicalVolume()->GetName()== "LayerPlBi"){
+         mass = detConstruction->GetScoringVolumes().at(i)->GetLogicalVolume()->GetMass() + detConstruction->logicShape2->GetMass();
+       };
+       dose = (fEdepV.at(i)/CLHEP::eV)/(mass*e_SI);
        man->FillNtupleDColumn(2,0,fEdepV.at(i));
        man->FillNtupleIColumn(2,1,i);
        man->FillNtupleIColumn(2,2,G4RunManager::GetRunManager()->GetCurrentEvent()->GetEventID());
+       man->FillNtupleDColumn(2,3,dose);
+       man->FillNtupleDColumn(2,4,(detConstruction->sc_vol_st)*i + detConstruction->sc_vol_st/2);
        man->AddNtupleRow(2);
     }
   };

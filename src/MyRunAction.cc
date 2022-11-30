@@ -31,13 +31,15 @@ MyRunAction::MyRunAction()
   man->CreateNtupleDColumn("Step");
   man->CreateNtupleDColumn("Z");
   man->CreateNtupleDColumn("En");
-  man->CreateNtupleIColumn("Event");  
+  man->CreateNtupleIColumn("Event");
   man->FinishNtuple(1);
 
   man->CreateNtuple("Dose_in_volume_N", "Dose_in_volume_N");
   man->CreateNtupleDColumn("Edep_MeV");
   man->CreateNtupleIColumn("VolumeId");
   man->CreateNtupleIColumn("Event");
+  man->CreateNtupleDColumn("dose");
+  man->CreateNtupleDColumn("Z");     
   man->FinishNtuple(2);
 
 }
