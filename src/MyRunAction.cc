@@ -39,8 +39,18 @@ MyRunAction::MyRunAction()
   man->CreateNtupleIColumn("VolumeId");
   man->CreateNtupleIColumn("Event");
   man->CreateNtupleDColumn("dose");
-  man->CreateNtupleDColumn("Z");     
+  man->CreateNtupleDColumn("Z");
   man->FinishNtuple(2);
+
+  man->CreateNtuple("Produced particles", "Produced particles");
+  man->CreateNtupleDColumn("En");
+  man->CreateNtupleSColumn("Particle_Name");
+  man->CreateNtupleIColumn("Particle_Id");
+  man->CreateNtupleDColumn("X");
+  man->CreateNtupleDColumn("Y");
+  man->CreateNtupleDColumn("Z");
+  man->CreateNtupleDColumn("Distance_fr_pr_vertex");
+  man->FinishNtuple(3);
 
 }
 

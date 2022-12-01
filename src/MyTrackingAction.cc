@@ -24,50 +24,68 @@
 // ********************************************************************
 //
 //
-/// \file ActionInitialization.cc
-/// \brief Implementation of the B1::ActionInitialization class
 
-#include "ActionInitialization.hh"
-#include "PrimaryGeneratorAction.hh"
-#include "MyRunAction.hh"
-#include "EventAction.hh"
-#include "SteppingAction.hh"
 #include "MyTrackingAction.hh"
+#include "EventAction.hh"
+#include "DetectorConstruction.hh"
+#include "MyRunAction.hh"
+
+#include "G4Track.hh"
+#include "G4Event.hh"
+#include "G4RunManager.hh"
+#include "G4LogicalVolume.hh"
 
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-MyActionInitialization::MyActionInitialization()
-{}
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
-MyActionInitialization::~MyActionInitialization()
-{}
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
-void MyActionInitialization::BuildForMaster() const
+MyTrackingAction::MyTrackingAction(MyRunAction* runAc ,EventAction* eventAction)
+:fRunAction(runAc),
+ fEventAction(eventAction)
 {
-   MyRunAction* runAction = new MyRunAction();
-   SetUserAction(runAction);
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void MyActionInitialization::Build() const
+MyTrackingAction::~MyTrackingAction()
 {
-  PrimaryGeneratorAction* generatorAction = new PrimaryGeneratorAction;
-  SetUserAction(generatorAction);
+}
 
-  MyRunAction* runAction = new MyRunAction();
-  SetUserAction(runAction);
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-  EventAction* eventAction = new EventAction(runAction,generatorAction);
-  SetUserAction(eventAction);
 
-  MyTrackingAction* trackingAction = new MyTrackingAction(runAction,eventAction);
-  SetUserAction(trackingAction);
+void MyTrackingAction::PreUserTrackingAction(const G4Track* track)
+{
+  G4double En,xpos,ypos,zpos,xpr, ypr, zpr, dist;
+  G4String particle_name;
+  G4int particle_id;
 
-  SetUserAction(new MySteppingAction(runAction,eventAction));
+// particle characteristics
+
+  G4AnalysisManager *man = G4AnalysisManager::Instance();
+
+  particle_name=track->GetDefinition()->GetParticleName() ;
+  particle_id = track->GetDefinition()->GetPDGEncoding() ;
+  En = track->GetKineticEnergy() / CLHEP::MeV ;
+  xpos = track->GetPosition().x();
+  ypos = track->GetPosition().y();
+  zpos = track->GetPosition().z();
+
+// primary vertex characterics
+
+  xpr = fEventAction->xprime;
+  ypr = fEventAction->yprime;
+  zpr = fEventAction->zprime;
+
+// calculate distance from primary vertex
+  dist = sqrt( (xpos-xpr)*(xpos-xpr) + (ypos-ypr)*(ypos-ypr) + (zpos-zpr)*(zpos-zpr));
+
+  man->FillNtupleDColumn(3,0,En);
+  man->FillNtupleSColumn(3,1,particle_name);
+  man->FillNtupleIColumn(3,2,particle_id);
+  man->FillNtupleDColumn(3,3,xpos);
+  man->FillNtupleDColumn(3,4,ypos);
+  man->FillNtupleDColumn(3,5,zpos);
+  man->FillNtupleDColumn(3,6,dist);
+  man->AddNtupleRow(3);
+
 }

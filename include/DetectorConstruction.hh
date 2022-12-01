@@ -62,8 +62,8 @@ class DetectorConstruction : public G4VUserDetectorConstruction
 
     const G4double shape2_dxy = 20*cm, shape2_dz = 1*cm;
     const G4double env_sizeXY = 20*cm, env_sizeZ = 35*cm;
-    const G4double sc_vol_st = 3*cm;
-    const G4ThreeVector pos2 = G4ThreeVector(0, 0, 7.5*cm);
+    const G4double sc_vol_st = 1*cm;
+    const G4ThreeVector pos2 = G4ThreeVector(0, 0, 2.5*cm);
 
     const G4String env_mat_name = "G4_WATER";
     const G4String world_mat_name = "G4_AIR";
