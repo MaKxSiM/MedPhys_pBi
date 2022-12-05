@@ -129,6 +129,26 @@ void DetectorConstruction::ConstructScoringVolumes(){
 
 
   G4NistManager* nist = G4NistManager::Instance();
+  //========platic A-150-tissue  with incorporated Bi particles =======================
+
+  G4double  pho_tissue= 1.00*g/cm3;
+  G4double  pho_admix = 9.79*g/cm3;
+  //G4double admix_c = 10*mg/L; //concetration in  mg per Litre ++ as per Kolobov++++
+  //G4double admix_c = 5000000*mg/L; //half of the plate from Bi  ++++test++++
+  G4double admix_c = 9790000*mg/L; //100% of the plate from Bi  ++++test++++
+
+  G4double density =  admix_c + (pho_tissue/pho_admix)*(pho_admix - admix_c);
+  G4double admix_fr = admix_c /density;// mass fractions
+  G4int ncomp = 2;
+
+  TissueWithAdmixture = new G4Material(TissueWithAdmixture_name, density, ncomp);
+  Tissue = nist->FindOrBuildMaterial(Tissue_name);
+  Admixture = nist->FindOrBuildMaterial(Admixture_name);
+  TissueWithAdmixture->AddMaterial(Tissue, 1 - admix_fr);
+  TissueWithAdmixture->AddMaterial(Admixture, admix_fr);
+  //============================================================================
+
+
   G4int  N = int(env_sizeZ/sc_vol_st);
 
   G4Box* templatebox =  new G4Box("Layer", 0.5*env_sizeXY, 0.5*env_sizeXY, 0.5*sc_vol_st);     //its size
@@ -152,6 +172,7 @@ void DetectorConstruction::ConstructScoringVolumes(){
   logictemp_pl_plate = new G4LogicalVolume(templatebox,          //its solid
                         nist->FindOrBuildMaterial(env_mat_name),           //its material
                         "LayerPlBi");
+
 
   for (G4int i = 0; i<N; i++){
       temp_str = pref + std::to_string(i);
@@ -188,10 +209,10 @@ void DetectorConstruction::ConstructScoringVolumes(){
     ); //its size
 
 
-  shape2_mat = nist->FindOrBuildMaterial(shape2_mat_name);
+//shape2_mat = nist->FindOrBuildMaterial(shape2_mat_name);
   logicShape2 =
     new G4LogicalVolume(solidShape2,         //its solid
-                        shape2_mat,          //its material
+                        TissueWithAdmixture,  //its material
                         "Shape2");           //its name */
 
 // find mother volume
