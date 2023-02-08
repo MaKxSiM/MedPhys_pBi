@@ -24,8 +24,7 @@
 // ********************************************************************
 //
 //
-/// \file DetectorConstruction.hh
-/// \brief Definition of the B1::DetectorConstruction class
+
 
 #ifndef B1DetectorConstruction_h
 #define B1DetectorConstruction_h 1
@@ -61,10 +60,10 @@ class DetectorConstruction : public G4VUserDetectorConstruction
 // Detector parameters
 
 
-    const G4double shape2_dxy = 20*cm, shape2_dz = 1*cm;
-    const G4double env_sizeXY = 20*cm, env_sizeZ = 35*cm;
-    const G4double sc_vol_st = 1*cm;
-    const G4ThreeVector pos2 = G4ThreeVector(0, 0, 2.5*cm);
+    const G4double shape2_dxy = 10*cm, shape2_dz = 1*cm;
+    const G4double env_sizeXY = 10*cm, env_sizeZ = 10*cm;
+    const G4double sc_vol_st = 0.5*cm;
+    const G4ThreeVector pos2 = G4ThreeVector(0, 0, 0.0*cm);
     G4double world_sizeXY = 1.2*env_sizeXY;
     G4double world_sizeZ  = 1.2*env_sizeZ;
 
