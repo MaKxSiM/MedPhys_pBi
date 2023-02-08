@@ -24,8 +24,7 @@
 // ********************************************************************
 //
 //
-/// \file exampleB1.cc
-/// \brief Main program of the B1 example
+
 
 #include "DetectorConstruction.hh"
 #include "ActionInitialization.hh"
@@ -35,11 +34,12 @@
 #include "G4RunManagerFactory.hh"
 #include "G4SteppingVerbose.hh"
 #include "G4UImanager.hh"
-#include "QBBC.hh"
+#include "PhysicsList.hh"
+//#include "QBBC.hh"
 
 #include "G4VisExecutive.hh"
 #include "G4UIExecutive.hh"
-#include "G4StepLimiterPhysics.hh"
+#include "G4RadioactiveDecayPhysics.hh"
 
 #include "Randomize.hh"
 
@@ -72,10 +72,16 @@ int main(int argc,char** argv)
   runManager->SetUserInitialization(detector);
 
   // Physics list
-  G4VModularPhysicsList* physicsList = new QBBC;
-  physicsList->SetVerboseLevel(1);
-  physicsList->RegisterPhysics(new G4StepLimiterPhysics());
-  runManager->SetUserInitialization(physicsList);
+  //G4VModularPhysicsList* physicsList = new QBBC;
+  //physicsList->SetVerboseLevel(1); // ?
+  //physicsList->RegisterPhysics(new G4StepLimiterPhysics()); //!!!!!!!!!!!!!!!
+  //physicsList->RegisterPhysics(new G4RadioactiveDecayPhysics);
+  //runManager->SetUserInitialization(physicsList);
+ // new implimentation of physics physicsList
+ PhysicsList* phys = new PhysicsList;
+ runManager->SetUserInitialization(phys);
+
+
 
   // User action initialization
   runManager->SetUserInitialization(new MyActionInitialization());
@@ -115,3 +121,4 @@ int main(int argc,char** argv)
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo.....
+
