@@ -3,6 +3,7 @@
 
 #include "G4UserRunAction.hh"
 #include "G4Run.hh"
+#include "DetectorConstruction.hh"
 
 #include "G4AnalysisManager.hh"
 #include "G4SystemOfUnits.hh"
@@ -21,8 +22,7 @@ public:
     const G4double MaxZ = 100*CLHEP::cm;
 
     const G4double stepfordEdz = 1.* CLHEP::mm;
-
-    const G4double stepforfluence = 1.* CLHEP::mm;    
+    const G4double stepforfluence = 1.* CLHEP::mm;
 
 };
 

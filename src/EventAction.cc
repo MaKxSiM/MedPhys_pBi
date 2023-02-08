@@ -51,7 +51,6 @@ EventAction::~EventAction()
 
 void EventAction::BeginOfEventAction(const G4Event*)
 {
-  fEdep = 0.;
 // initialize passed distance dE/dx
 
   distdEdx = 0.;
@@ -63,24 +62,51 @@ void EventAction::BeginOfEventAction(const G4Event*)
 
   vdEdz = InitializeZVector(fRunAction->MinZ, fRunAction->MaxZ, fRunAction->stepfordEdz);
   vEn = InitializeEnVector(fRunAction->MinZ, fRunAction->MaxZ, fRunAction->stepforfluence);
+  const DetectorConstruction* detConstruction = static_cast<const DetectorConstruction*>(G4RunManager::GetRunManager()->GetUserDetectorConstruction());
+  fEdepV = Initialize_EinVol_Vector(detConstruction->GetScoringVolumes().size());
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
+
 void EventAction::EndOfEventAction(const G4Event*)
 {
+  const DetectorConstruction* detConstruction = static_cast<const DetectorConstruction*>(G4RunManager::GetRunManager()->GetUserDetectorConstruction());
+  G4double dose;
+  G4double mass = 0.;
 
   G4AnalysisManager *man = G4AnalysisManager::Instance();
-
   for (uint i = 0; i<vdEdz.size();i++){
     if (vEn.at(i)>-0.1){
       man->FillNtupleDColumn(1,0,vdEdz.at(i));
       man->FillNtupleDColumn(1,1,fRunAction->stepfordEdz);
       man->FillNtupleDColumn(1,2,i*fRunAction->stepfordEdz);
       man->FillNtupleDColumn(1,3,vEn.at(i));
+      man->FillNtupleIColumn(1,4,G4RunManager::GetRunManager()->GetCurrentEvent()->GetEventID());
       man->AddNtupleRow(1);
     }
   }
+  // accumulate statistics in run action
+  for (uint i=0;i<fEdepV.size();i++){
+  // calculate mass to conver to grays
+     if (fEdepV.at(i) > 0.) {
+       if (detConstruction->GetScoringVolumes().at(i)->GetLogicalVolume()->GetName()== "Layer"){
+         mass = detConstruction->GetScoringVolumes().at(i)->GetLogicalVolume()->GetMass();
+       };
+       if (detConstruction->GetScoringVolumes().at(i)->GetLogicalVolume()->GetName()== "LayerPlBi"){
+         mass = detConstruction->GetScoringVolumes().at(i)->GetLogicalVolume()->GetMass() + detConstruction->logicShape2->GetMass();
+       };
+       dose = (fEdepV.at(i)/CLHEP::eV)/(mass*e_SI);
+       man->FillNtupleDColumn(2,0,fEdepV.at(i));
+       man->FillNtupleIColumn(2,1,i);
+       man->FillNtupleIColumn(2,2,G4RunManager::GetRunManager()->GetCurrentEvent()->GetEventID());
+       man->FillNtupleDColumn(2,3,dose);
+       man->FillNtupleDColumn(2,4,(detConstruction->sc_vol_st)*i + detConstruction->sc_vol_st/2);
+       man->AddNtupleRow(2);
+    }
+  };
+
+
 }
 
 
@@ -100,4 +126,12 @@ std::vector<G4double> EventAction::InitializeEnVector(G4double Min_Z,G4double Ma
       temp.push_back(-1.);
     };
     return temp;
+}
+
+std::vector<G4double> EventAction::Initialize_EinVol_Vector(G4int N){
+  std::vector<G4double> temp = {};
+  for (int j = 0; j<N; j++){
+    temp.push_back(0.);
+  };
+  return temp;
 }

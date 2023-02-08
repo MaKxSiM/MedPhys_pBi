@@ -31,14 +31,7 @@
 
 #include "G4RunManager.hh"
 #include "G4NistManager.hh"
-#include "G4Box.hh"
-#include "G4Cons.hh"
-#include "G4Orb.hh"
-#include "G4Sphere.hh"
-#include "G4Trd.hh"
 #include "G4LogicalVolume.hh"
-#include "G4PVPlacement.hh"
-#include "G4SystemOfUnits.hh"
 
 
 
@@ -61,25 +54,19 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 
   // Envelope parameters
   //
-  G4double env_sizeXY = 20*cm, env_sizeZ = 35*cm;
-  G4Material* env_mat = nist->FindOrBuildMaterial("G4_WATER");
+  env_mat = nist->FindOrBuildMaterial(env_mat_name);
 
   // Option to switch on/off checking of volumes overlaps
   //
-  G4bool checkOverlaps = true;
 
-  //
-  // World
-  //
-  G4double world_sizeXY = 1.2*env_sizeXY;
-  G4double world_sizeZ  = 1.2*env_sizeZ;
-  G4Material* world_mat = nist->FindOrBuildMaterial("G4_AIR");
+
+  world_mat = nist->FindOrBuildMaterial(world_mat_name);
 
   G4Box* solidWorld =
     new G4Box("World",                       //its name
        0.5*world_sizeXY, 0.5*world_sizeXY, 0.5*world_sizeZ);     //its size
 
-  G4LogicalVolume* logicWorld =
+    logicWorld =
     new G4LogicalVolume(solidWorld,          //its solid
                         world_mat,           //its material
                         "World");            //its name
@@ -101,12 +88,12 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
     new G4Box("Envelope",                    //its name
         0.5*env_sizeXY, 0.5*env_sizeXY, 0.5*env_sizeZ); //its size
 
-  G4LogicalVolume* logicEnv =
+  logicEnv =
     new G4LogicalVolume(solidEnv,            //its solid
                         env_mat,             //its material
                         "Envelope");         //its name
 
-  new G4PVPlacement(0,                       //no rotation
+  physEnv = new G4PVPlacement(0,                       //no rotation
                     G4ThreeVector(),         //at (0,0,0)
                     logicEnv,                //its logical volume
                     "Envelope",              //its name
@@ -117,49 +104,129 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 
 
 
-  G4Material* shape2_mat = nist->FindOrBuildMaterial("G4_Bi");
-  //G4Material* shape2_mat = nist->FindOrBuildMaterial("G4_B");
-  G4ThreeVector pos2 = G4ThreeVector(0, -1*cm, 7*cm);
-
-  // Trapezoid shape
-  G4double shape2_dxa = 12*cm, shape2_dxb = 12*cm;
-  G4double shape2_dya = 13.6*cm, shape2_dyb = 14*cm;
-  G4double shape2_dz  = 1.0*cm;
-  G4Trd* solidShape2 =
-    new G4Trd("Shape2",                      //its name
-              0.5*shape2_dxa, 0.5*shape2_dxb,
-              0.5*shape2_dya, 0.5*shape2_dyb, 0.5*shape2_dz); //its size
-
-  G4LogicalVolume* logicShape2 =
-    new G4LogicalVolume(solidShape2,         //its solid
-                        shape2_mat,          //its material
-                        "Shape2");           //its name
-
-  new G4PVPlacement(0,                       //no rotation
-                    pos2,                    //at position
-                    logicShape2,             //its logical volume
-                    "Shape2",                //its name
-                    logicEnv,                //its mother  volume
-                    false,                   //no boolean operation
-                    0,                       //copy number
-                    checkOverlaps);          //overlaps checking
 
 
 
-  // Set Shape2 as scoring volume
-  //
-  fScoringVolume = logicShape2;
+  ConstructScoringVolumes();
+
+
 
 // Set maximal step size
   G4double maxStep = 0.1 * CLHEP::mm;
   fStepLimit = new G4UserLimits(maxStep);
+  logicWorld->SetUserLimits(fStepLimit);
   logicEnv->SetUserLimits(fStepLimit);
+  logictempl->SetUserLimits(fStepLimit);
+  logictemp_pl_plate->SetUserLimits(fStepLimit);
   logicShape2->SetUserLimits(fStepLimit);
-
-
-
   //
   //always return the physical World
   //
   return physWorld;
+}
+
+void DetectorConstruction::ConstructScoringVolumes(){
+
+
+  G4NistManager* nist = G4NistManager::Instance();
+  //========platic A-150-tissue  with incorporated Bi particles =======================
+
+  G4double  pho_tissue= 1.00*g/cm3;
+  G4double  pho_admix = 9.79*g/cm3;
+  //G4double admix_c = 10*mg/L; //concetration in  mg per Litre ++ as per Kolobov++++
+  //G4double admix_c = 5000000*mg/L; //half of the plate from Bi  ++++test++++
+  G4double admix_c = 9790000*mg/L; //100% of the plate from Bi  ++++test++++
+
+  G4double density =  admix_c + (pho_tissue/pho_admix)*(pho_admix - admix_c);
+  G4double admix_fr = admix_c /density;// mass fractions
+  G4int ncomp = 2;
+
+  TissueWithAdmixture = new G4Material(TissueWithAdmixture_name, density, ncomp);
+  Tissue = nist->FindOrBuildMaterial(Tissue_name);
+  Admixture = nist->FindOrBuildMaterial(Admixture_name);
+  TissueWithAdmixture->AddMaterial(Tissue, 1 - admix_fr);
+  TissueWithAdmixture->AddMaterial(Admixture, admix_fr);
+  //============================================================================
+
+
+  G4int  N = int(env_sizeZ/sc_vol_st);
+
+  G4Box* templatebox =  new G4Box("Layer", 0.5*env_sizeXY, 0.5*env_sizeXY, 0.5*sc_vol_st);     //its size
+
+  logictempl = new G4LogicalVolume(templatebox,          //its solid
+                        nist->FindOrBuildMaterial(env_mat_name),           //its material
+                        "Layer");
+  G4String temp_str;
+  const G4String pref = "Layer";
+
+  G4VPhysicalVolume* phys_vol;
+
+  G4int Npos = int((pos2.z() + 0.5*env_sizeZ)/sc_vol_st);
+
+// find position in local volume
+
+  G4double pos_log_z = pos2.z() + 0.5*env_sizeZ - Npos*sc_vol_st;
+
+// construct template to pu Bi plate inside
+
+  logictemp_pl_plate = new G4LogicalVolume(templatebox,          //its solid
+                        nist->FindOrBuildMaterial(env_mat_name),           //its material
+                        "LayerPlBi");
+
+
+  for (G4int i = 0; i<N; i++){
+      temp_str = pref + std::to_string(i);
+      if (i!=Npos){
+          phys_vol = new G4PVPlacement(0,                    //no rotation
+                    G4ThreeVector(0, 0, -0.5*env_sizeZ + sc_vol_st/2 + sc_vol_st*i),
+                    logictempl,                //its logical volume
+                    temp_str,                     //its name
+                    logicEnv,                     //its mother  volume
+                    false,                        //no boolean operation
+                    0,                            //copy number
+                    checkOverlaps);                        //overlaps checking
+          fScoringVolumes.push_back(phys_vol);
+      }
+      else {
+          phys_vol = new G4PVPlacement(0,                    //no rotation
+                  G4ThreeVector(0, 0, -0.5*env_sizeZ + sc_vol_st/2 + sc_vol_st*i),
+                  logictemp_pl_plate,                //its logical volume
+                  temp_str,                     //its name
+                  logicEnv,                     //its mother  volume
+                  false,                        //no boolean operation
+                  0,                            //copy number
+                  checkOverlaps);                        //overlaps checking
+          fScoringVolumes.push_back(phys_vol);
+      }
+  };
+
+
+// place shape2 inside one of volumes
+
+  G4Box* solidShape2 =
+    new G4Box("Shape2",                      //its name
+              0.5*shape2_dxy,0.5*shape2_dxy, 0.5*shape2_dz
+    ); //its size
+
+
+//shape2_mat = nist->FindOrBuildMaterial(shape2_mat_name);
+  logicShape2 =
+    new G4LogicalVolume(solidShape2,         //its solid
+                        TissueWithAdmixture,  //its material
+                        "Shape2");           //its name */
+
+// find mother volume
+
+  G4VPhysicalVolume* bismutvol = new G4PVPlacement(0,                       //no rotation
+                    G4ThreeVector(0, 0, pos_log_z),                    //at position
+                    logicShape2,             //its logical volume
+                    "Shape2",                //its name
+                    logictemp_pl_plate,                //its mother  volume
+                    false,                   //no boolean operation
+                    0,                       //copy number
+                    checkOverlaps);          //overlaps checking
+
+  if (bismutvol->CheckOverlaps()) {
+    std::cout << "overlaps seen, move Bismuth plate a little bit, abort run" << std::endl;
+  }
 }

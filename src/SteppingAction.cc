@@ -58,6 +58,7 @@ MySteppingAction::~MySteppingAction()
 void MySteppingAction::UserSteppingAction(const G4Step* step)
 {
   // collect energy deposited in this step
+
   G4double edepStep = step->GetTotalEnergyDeposit();
   G4Track* mytrack = step -> GetTrack ();
   G4double xi, yi, zi, xi_post, yi_post, zi_post, En, stepdist, xpr, ypr, zpr , zdist_fluence_pre, zdist_fluence_post;
@@ -85,8 +86,8 @@ void MySteppingAction::UserSteppingAction(const G4Step* step)
   stepdist = sqrt( (xi-xi_post)*(xi-xi_post) + (yi-yi_post)*(yi-yi_post) + (zi-zi_post)*(zi-zi_post) );
 
 
-  i_z_fluence = int(zdist_fluence_pre/fRunAction->stepfordEdz);
-  i_p_fluence = int(zdist_fluence_post/fRunAction->stepfordEdz);
+  i_z_fluence = int(zdist_fluence_pre/fRunAction->stepforfluence);
+  i_p_fluence = int(zdist_fluence_post/fRunAction->stepforfluence);
   En = step->GetPreStepPoint()->GetKineticEnergy()/CLHEP::MeV;
 
   if (mytrack->GetTrackID() == 1){
@@ -99,18 +100,46 @@ void MySteppingAction::UserSteppingAction(const G4Step* step)
     };
   };
 
-
   if (i_z_fluence != i_p_fluence){
+    int ismaller,ibigger;
     if (G4RunManager::GetRunManager()->GetCurrentEvent()){
-      man->FillNtupleIColumn(0,0,G4RunManager::GetRunManager()->GetCurrentEvent()->GetEventID());
-      man->FillNtupleDColumn(0,1,xi);
-      man->FillNtupleDColumn(0,2,yi);
-      man->FillNtupleDColumn(0,3,i_z_fluence*fRunAction->stepforfluence);
-      man->FillNtupleDColumn(0,4,En);
-      man->FillNtupleIColumn(0,5,mytrack->GetDefinition()->GetPDGEncoding());
-      man->FillNtupleSColumn(0,6,mytrack->GetDefinition()->GetParticleName());
-      man->FillNtupleSColumn(0,7,mytrack->GetMaterial()->GetName());
-      man->AddNtupleRow(0);
+      if (i_z_fluence<i_p_fluence){
+        ismaller = i_z_fluence;
+        ibigger = i_p_fluence;
+      } else
+      {
+        ismaller = i_p_fluence;
+        ibigger = i_z_fluence;
+      };
+      for (int i=ismaller; i<ibigger;i++){
+        man->FillNtupleIColumn(0,0,G4RunManager::GetRunManager()->GetCurrentEvent()->GetEventID());
+        man->FillNtupleDColumn(0,1,xi);
+        man->FillNtupleDColumn(0,2,yi);
+        man->FillNtupleDColumn(0,3,i*fRunAction->stepforfluence);
+        man->FillNtupleDColumn(0,4,En);
+        man->FillNtupleIColumn(0,5,mytrack->GetDefinition()->GetPDGEncoding());
+        man->FillNtupleSColumn(0,6,mytrack->GetDefinition()->GetParticleName());
+        man->FillNtupleSColumn(0,7,mytrack->GetMaterial()->GetName());
+        man->AddNtupleRow(0);
+      }
     }
-  }
+  };
+
+  G4VPhysicalVolume* volume  = step->GetPreStepPoint()->GetTouchableHandle()->GetVolume();
+  if (fScoringVolumes.size() == 0) {
+      const DetectorConstruction* detConstruction = static_cast<const DetectorConstruction*>(G4RunManager::GetRunManager()->GetUserDetectorConstruction());
+      fScoringVolumes = detConstruction->GetScoringVolumes();
+  };
+
+  for (uint i = 0; i<fScoringVolumes.size(); i++){
+    if (volume == fScoringVolumes.at(i)){
+        fEventAction->AddEdep(edepStep,i);
+    };
+    if (volume->GetMotherLogical()){
+      if ((volume->GetMotherLogical()->GetName() != "World") && (volume->GetMotherLogical()->GetName() == fScoringVolumes.at(i)->GetLogicalVolume()->GetName())){
+          fEventAction->AddEdep(edepStep,i);
+      };
+    };  
+  };
+
 }

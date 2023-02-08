@@ -31,6 +31,7 @@
 #define MyActionInitialization_h 1
 
 #include "G4VUserActionInitialization.hh"
+#include "DetectorConstruction.hh"
 
 /// Action initialization class.
 

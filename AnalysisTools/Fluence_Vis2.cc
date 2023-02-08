@@ -43,7 +43,7 @@
   PIDofInterest.push_back(11);     //electron
   PIDofInterest.push_back(22);     //gamma
 
-   TFile *f = new TFile("~/Programs/Geant4/WorkTest/GIT/RootFiles-V1/All_1M.root");
+   TFile *f = new TFile("/home/martin/geant4/MedPhysics/MedPhys_pBi_build/output.root");
    TTree *t1 = (TTree*)f->Get("Fluences");
    double X, Y, Zsurf, Energy;
    int particle_id;
