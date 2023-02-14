@@ -33,12 +33,15 @@
 #include "G4UserLimits.hh"
 #include "globals.hh"
 #include "G4SystemOfUnits.hh"
+#include "G4Element.hh"
+#include "G4ElementTable.hh"
 #include "G4Box.hh"
 #include "G4Cons.hh"
 #include "G4Orb.hh"
 #include "G4Sphere.hh"
 #include "G4Trd.hh"
 #include "G4PVPlacement.hh"
+#include "G4HumanPhantomMaterial.hh"
 
 class G4VPhysicalVolume;
 class G4LogicalVolume;
@@ -71,10 +74,13 @@ class DetectorConstruction : public G4VUserDetectorConstruction
     const G4String env_mat_name = "G4_WATER";
     const G4String world_mat_name = "G4_AIR";
     const G4String Admixture_name = "G4_Bi";
-    const G4String Tissue_name = "G4_A-150_TISSUE";
+    //const G4String Tissue_name = "G4_A-150_TISSUE";
+    const G4String Tissue_name = "soft_tissue"; //soft tissues from G4HumanPhantomMaterial
+
     const G4String TissueWithAdmixture_name = "TissueWithAdmixture";
 
-    G4double  rho_tissue= 1.00*g/cm3;
+    //G4double  rho_tissue= 1.00*g/cm3; //this is just water
+    G4double  rho_tissue= 0.9869*g/cm3; //soft tissue
     G4double  rho_admix = 9.79*g/cm3;
     G4double admix_c = 0*mg/L; //concetration in  mg per Litre ++ as per Kolobov++++
     //G4double admix_c = 3000000*mg/L; //half of the plate from Bi  ++++test++++
@@ -83,7 +89,13 @@ class DetectorConstruction : public G4VUserDetectorConstruction
     G4Material* TissueWithAdmixture;
     G4Material* Tissue;
     G4Material* Admixture;
+  //  G4Material* soft;
 //==================================================================================
+
+
+
+
+//
 
     //G4Material* shape2_mat;
 

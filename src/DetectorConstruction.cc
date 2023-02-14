@@ -28,10 +28,14 @@
 /// \brief Implementation of the B1::DetectorConstruction class
 
 #include "DetectorConstruction.hh"
-
 #include "G4RunManager.hh"
 #include "G4NistManager.hh"
 #include "G4LogicalVolume.hh"
+#include "G4VUserDetectorConstruction.hh"
+
+#include "G4MaterialPropertiesTable.hh"
+#include "G4MaterialPropertyVector.hh"
+#include "G4MaterialTable.hh"
 
 
 
@@ -136,11 +140,20 @@ void DetectorConstruction::ConstructScoringVolumes(){
   G4int ncomp = 2;
 
   TissueWithAdmixture = new G4Material(TissueWithAdmixture_name, density, ncomp);
-  Tissue = nist->FindOrBuildMaterial(Tissue_name);
+  //Tissue = nist->FindOrBuildMaterial(Tissue_name); //for standard NIST materials
+
+  G4HumanPhantomMaterial* material = new G4HumanPhantomMaterial();
+  Tissue  = material->GetMaterial(Tissue_name);
+
+  //Tissue = G4HumanPhantomMaterial::GetMaterial(Tissue_name);
+
+  //std::cout<< "Tissue adress "<< Tissue <<std::endl;
   Admixture = nist->FindOrBuildMaterial(Admixture_name);
   TissueWithAdmixture->AddMaterial(Tissue, 1 - admix_fr);
   TissueWithAdmixture->AddMaterial(Admixture, admix_fr);
   //============================================================================
+
+  //
 
 
   G4int  N = int(env_sizeZ/sc_vol_st);
