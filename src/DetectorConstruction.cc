@@ -112,13 +112,13 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 
 
 // Set maximal step size
-  G4double maxStep = 0.1 * CLHEP::mm;
-  fStepLimit = new G4UserLimits(maxStep);
-  logicWorld->SetUserLimits(fStepLimit);
-  logicEnv->SetUserLimits(fStepLimit);
-  logictempl->SetUserLimits(fStepLimit);
-  logictemp_pl_plate->SetUserLimits(fStepLimit);
-  logicShape2->SetUserLimits(fStepLimit);
+  //G4double maxStep = 0.1 * CLHEP::mm;
+  //fStepLimit = new G4UserLimits(maxStep);
+  //logicWorld->SetUserLimits(fStepLimit);
+  //logicEnv->SetUserLimits(fStepLimit);
+  //logictempl->SetUserLimits(fStepLimit);
+  //logictemp_pl_plate->SetUserLimits(fStepLimit);
+  //logicShape2->SetUserLimits(fStepLimit);
   //
   //always return the physical World
   //
@@ -129,15 +129,9 @@ void DetectorConstruction::ConstructScoringVolumes(){
 
 
   G4NistManager* nist = G4NistManager::Instance();
-  //========platic A-150-tissue  with incorporated Bi particles =======================
 
-  G4double  pho_tissue= 1.00*g/cm3;
-  G4double  pho_admix = 9.79*g/cm3;
-  //G4double admix_c = 10*mg/L; //concetration in  mg per Litre ++ as per Kolobov++++
-  //G4double admix_c = 5000000*mg/L; //half of the plate from Bi  ++++test++++
-  G4double admix_c = 9790000*mg/L; //100% of the plate from Bi  ++++test++++
-
-  G4double density =  admix_c + (pho_tissue/pho_admix)*(pho_admix - admix_c);
+//========platic A-150-tissue  with incorporated Bi particles =======================
+  G4double density =  admix_c + (rho_tissue/rho_admix)*(rho_admix - admix_c);
   G4double admix_fr = admix_c /density;// mass fractions
   G4int ncomp = 2;
 

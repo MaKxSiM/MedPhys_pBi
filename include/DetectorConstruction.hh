@@ -62,21 +62,28 @@ class DetectorConstruction : public G4VUserDetectorConstruction
 
     const G4double shape2_dxy = 10*cm, shape2_dz = 1*cm;
     const G4double env_sizeXY = 10*cm, env_sizeZ = 10*cm;
-    const G4double sc_vol_st = 0.5*cm;
+    const G4double sc_vol_st = 1.0*cm;
     const G4ThreeVector pos2 = G4ThreeVector(0, 0, 0.0*cm);
     G4double world_sizeXY = 1.2*env_sizeXY;
     G4double world_sizeZ  = 1.2*env_sizeZ;
 
+//========platic A-150-tissue  with incorporated Bi particles =======================
     const G4String env_mat_name = "G4_WATER";
     const G4String world_mat_name = "G4_AIR";
     const G4String Admixture_name = "G4_Bi";
     const G4String Tissue_name = "G4_A-150_TISSUE";
     const G4String TissueWithAdmixture_name = "TissueWithAdmixture";
 
+    G4double  rho_tissue= 1.00*g/cm3;
+    G4double  rho_admix = 9.79*g/cm3;
+    G4double admix_c = 0*mg/L; //concetration in  mg per Litre ++ as per Kolobov++++
+    //G4double admix_c = 3000000*mg/L; //half of the plate from Bi  ++++test++++
+    //G4double admix_c = 9790000*mg/L; //100% of the plate from Bi  ++++test++++
 
     G4Material* TissueWithAdmixture;
     G4Material* Tissue;
     G4Material* Admixture;
+//==================================================================================
 
     //G4Material* shape2_mat;
 

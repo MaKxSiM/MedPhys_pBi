@@ -72,7 +72,7 @@ PhysicsList::PhysicsList()
 
 
   // Radioactive Decay
-  ///////////////// RegisterPhysics(new G4RadioactiveDecayPhysics());
+  RegisterPhysics(new G4RadioactiveDecayPhysics());
 
 }
 
