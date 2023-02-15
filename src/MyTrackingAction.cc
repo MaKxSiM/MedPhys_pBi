@@ -79,13 +79,14 @@ void MyTrackingAction::PreUserTrackingAction(const G4Track* track)
 // calculate distance from primary vertex
   dist = sqrt( (xpos-xpr)*(xpos-xpr) + (ypos-ypr)*(ypos-ypr) + (zpos-zpr)*(zpos-zpr));
 
-  man->FillNtupleDColumn(3,0,En);
-  man->FillNtupleSColumn(3,1,particle_name);
-  man->FillNtupleIColumn(3,2,particle_id);
-  man->FillNtupleDColumn(3,3,xpos);
-  man->FillNtupleDColumn(3,4,ypos);
-  man->FillNtupleDColumn(3,5,zpos);
-  man->FillNtupleDColumn(3,6,dist);
-  man->AddNtupleRow(3);
-
+  if(En>0.01){//keeping particles with energy> 10keV
+    man->FillNtupleDColumn(3,0,En);
+    man->FillNtupleSColumn(3,1,particle_name);
+    man->FillNtupleIColumn(3,2,particle_id);
+    man->FillNtupleDColumn(3,3,xpos);
+    man->FillNtupleDColumn(3,4,ypos);
+    man->FillNtupleDColumn(3,5,zpos);
+    man->FillNtupleDColumn(3,6,dist);
+    man->AddNtupleRow(3);
+  }
 }

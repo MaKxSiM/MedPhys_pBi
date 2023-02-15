@@ -112,6 +112,7 @@ void MySteppingAction::UserSteppingAction(const G4Step* step)
         ibigger = i_z_fluence;
       };
       for (int i=ismaller; i<ibigger;i++){
+        if(En>0.00){ //keeping only fluences for particles with  Energy >10 keV
         man->FillNtupleIColumn(0,0,G4RunManager::GetRunManager()->GetCurrentEvent()->GetEventID());
         man->FillNtupleDColumn(0,1,xi);
         man->FillNtupleDColumn(0,2,yi);
@@ -121,6 +122,7 @@ void MySteppingAction::UserSteppingAction(const G4Step* step)
         man->FillNtupleSColumn(0,6,mytrack->GetDefinition()->GetParticleName());
         man->FillNtupleSColumn(0,7,mytrack->GetMaterial()->GetName());
         man->AddNtupleRow(0);
+       }
       }
     }
   };
@@ -139,7 +141,7 @@ void MySteppingAction::UserSteppingAction(const G4Step* step)
       if ((volume->GetMotherLogical()->GetName() != "World") && (volume->GetMotherLogical()->GetName() == fScoringVolumes.at(i)->GetLogicalVolume()->GetName())){
           fEventAction->AddEdep(edepStep,i);
       };
-    };  
+    };
   };
 
 }
