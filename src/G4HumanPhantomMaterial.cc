@@ -38,9 +38,7 @@
 #include "G4Element.hh"
 #include "G4ElementTable.hh"
 
-G4HumanPhantomMaterial::G4HumanPhantomMaterial():
-  soft(0),  skeleton(0),lung(0), adipose(0), glandular(0),
-  adipose_glandular(0)
+G4HumanPhantomMaterial::G4HumanPhantomMaterial()
 {;}
 
 G4HumanPhantomMaterial::~G4HumanPhantomMaterial()
@@ -133,6 +131,7 @@ void G4HumanPhantomMaterial::DefineMaterials()
   soft->AddElement(elSr,0.00000034);
   soft->AddElement(elZr,0.000008);
   soft->AddElement(elPb,0.00000016);
+
   // MIRD Skeleton
 
   d = 1.4862*g/cm3;
@@ -211,6 +210,7 @@ void G4HumanPhantomMaterial::DefineMaterials()
 G4Material* G4HumanPhantomMaterial::GetMaterial(G4String material)
 {
   // Returns a material
+  DefineMaterials();
   G4Material* pttoMaterial = G4Material::GetMaterial(material);
   return pttoMaterial;
 }

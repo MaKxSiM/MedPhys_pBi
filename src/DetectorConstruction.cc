@@ -143,11 +143,9 @@ void DetectorConstruction::ConstructScoringVolumes(){
   //Tissue = nist->FindOrBuildMaterial(Tissue_name); //for standard NIST materials
 
   G4HumanPhantomMaterial* material = new G4HumanPhantomMaterial();
+  ///material->DefineMaterials();
   Tissue  = material->GetMaterial(Tissue_name);
 
-  //Tissue = G4HumanPhantomMaterial::GetMaterial(Tissue_name);
-
-  //std::cout<< "Tissue adress "<< Tissue <<std::endl;
   Admixture = nist->FindOrBuildMaterial(Admixture_name);
   TissueWithAdmixture->AddMaterial(Tissue, 1 - admix_fr);
   TissueWithAdmixture->AddMaterial(Admixture, admix_fr);
