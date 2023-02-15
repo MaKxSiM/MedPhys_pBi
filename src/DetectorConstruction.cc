@@ -36,7 +36,7 @@
 #include "G4MaterialPropertiesTable.hh"
 #include "G4MaterialPropertyVector.hh"
 #include "G4MaterialTable.hh"
-
+#include "G4Material.hh"
 
 
 DetectorConstruction::DetectorConstruction()
