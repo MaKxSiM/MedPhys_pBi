@@ -103,6 +103,15 @@ int main(int argc,char** argv)
     G4String command = "/control/execute ";
     G4String fileName = argv[1];
     UImanager->ApplyCommand(command+fileName);
+    //======= modification to physics list   =====
+
+UImanager->ApplyCommand("/process/em/fluo true");
+  UImanager->ApplyCommand("/process/em/auger true");
+  UImanager->ApplyCommand("/process/em/augerCascade true");
+  UImanager->ApplyCommand("/process/em/pixe true");
+  //UImanager->ApplyCommand("/run/setCutForAGivenParticle e- 0.01 mm");
+
+  //============================================
   }
   else {
     // interactive mode
@@ -121,4 +130,3 @@ int main(int argc,char** argv)
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo.....
-

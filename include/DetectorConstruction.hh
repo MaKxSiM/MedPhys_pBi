@@ -82,7 +82,7 @@ class DetectorConstruction : public G4VUserDetectorConstruction
     //G4double  rho_tissue= 1.00*g/cm3; //this is just water
     G4double  rho_tissue= 0.9869*g/cm3; //soft tissue
     G4double  rho_admix = 9.79*g/cm3;
-    G4double admix_c = 0*mg/L; //concetration in  mg per Litre ++ as per Kolobov++++
+    G4double admix_c = 10000*mg/L; //concetration in  mg per Litre ++ as per Kolobov++++
     //G4double admix_c = 3000000*mg/L; //half of the plate from Bi  ++++test++++
     //G4double admix_c = 9790000*mg/L; //100% of the plate from Bi  ++++test++++
 

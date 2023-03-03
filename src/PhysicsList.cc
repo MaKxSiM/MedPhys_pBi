@@ -87,7 +87,7 @@ PhysicsList::~PhysicsList()
 void PhysicsList::SetCuts()
 
 {
-
+   G4ProductionCutsTable::GetProductionCutsTable()->SetEnergyRange(10*eV, 1*GeV);
   // SetCutValue(0*mm, "proton");
   // SetCutValue(10*km, "e-");
   // SetCutValue(10*km, "e+");
