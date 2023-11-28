@@ -96,7 +96,8 @@ void EventAction::EndOfEventAction(const G4Event*)
        if (detConstruction->GetScoringVolumes().at(i)->GetLogicalVolume()->GetName()== "LayerPlBi"){
          mass = detConstruction->GetScoringVolumes().at(i)->GetLogicalVolume()->GetMass() + detConstruction->logicShape2->GetMass();
        };
-       dose = (fEdepV.at(i)/CLHEP::eV)/(mass*e_SI);
+       //dose = (fEdepV.at(i)/CLHEP::eV)/(mass*e_SI);
+        dose = ((fEdepV.at(i)/CLHEP::eV)*e_SI)/(mass/kg);
        man->FillNtupleDColumn(2,0,fEdepV.at(i));
        man->FillNtupleIColumn(2,1,i);
        man->FillNtupleIColumn(2,2,G4RunManager::GetRunManager()->GetCurrentEvent()->GetEventID());
