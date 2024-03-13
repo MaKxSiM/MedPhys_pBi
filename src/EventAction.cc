@@ -56,9 +56,10 @@ void EventAction::BeginOfEventAction(const G4Event*)
   distdEdx = 0.;
 
 // get primary vertex
-  xprime = fGeneratorAction->GetParticleGun()->GetParticlePosition().x();
-  yprime = fGeneratorAction->GetParticleGun()->GetParticlePosition().y();
-  zprime = fGeneratorAction->GetParticleGun()->GetParticlePosition().z();
+  xprime = fGeneratorAction->Xprime;
+  yprime = fGeneratorAction->Yprime;
+  zprime = fGeneratorAction->Zprime;
+  //std::cout<<"Primary point position:  "<<xprime<<"  "<<yprime<<"  "<<zprime<<"  "<<std::endl;
 
   vdEdz = InitializeZVector(fRunAction->MinZ, fRunAction->MaxZ, fRunAction->stepfordEdz);
   vEn = InitializeEnVector(fRunAction->MinZ, fRunAction->MaxZ, fRunAction->stepforfluence);

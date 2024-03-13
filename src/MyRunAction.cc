@@ -44,10 +44,10 @@ MyRunAction::MyRunAction()
 
   man->CreateNtuple("Produced particles", "Produced particles");
   man->CreateNtupleDColumn("En");
-  man->CreateNtupleSColumn("Particle_Name");
+  //man->CreateNtupleSColumn("Particle_Name");
   man->CreateNtupleIColumn("Particle_Id");
-  man->CreateNtupleDColumn("X");
-  man->CreateNtupleDColumn("Y");
+  //man->CreateNtupleDColumn("X");
+  //man->CreateNtupleDColumn("Y");
   man->CreateNtupleDColumn("Z");
   man->CreateNtupleDColumn("Distance_fr_pr_vertex");
   man->FinishNtuple(3);

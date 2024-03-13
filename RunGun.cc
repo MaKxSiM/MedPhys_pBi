@@ -57,6 +57,10 @@ int main(int argc,char** argv)
   // Optionally: choose a different Random engine...
   // G4Random::setTheEngine(new CLHEP::MTwistEngine);
 
+ G4Random::setTheEngine(new CLHEP::MTwistEngine);
+ CLHEP::HepRandom::setTheSeed((unsigned)clock());
+
+
   //use G4SteppingVerboseWithUnits
   G4int precision = 4;
   G4SteppingVerbose::UseBestUnit(precision);
@@ -121,4 +125,3 @@ int main(int argc,char** argv)
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo.....
-

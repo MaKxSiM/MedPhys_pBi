@@ -16,6 +16,9 @@
 #include "G4StoppingPhysics.hh"
 
 #include "G4EmStandardPhysics_option3.hh"
+#include "G4EmStandardPhysics_option4.hh"
+#include "G4EmLivermorePhysics.hh"
+
 #include "G4DecayPhysics.hh"
 #include "G4RadioactiveDecayPhysics.hh"
 
@@ -67,8 +70,12 @@ PhysicsList::PhysicsList()
   // Gamma-Nuclear Physics
   ////RegisterPhysics( new GammaNuclearPhysicsLEND("gamma"));
 
-  // EM physics
+   //EM physics
   ////RegisterPhysics(new G4EmStandardPhysics_option3(verb));
+  RegisterPhysics(new G4EmStandardPhysics_option4(2));
+  //RegisterPhysics(new G4EmLivermorePhysics());
+
+  G4ProductionCutsTable::GetProductionCutsTable()->SetEnergyRange(250*eV, 1*GeV);
 
 
   // Radioactive Decay

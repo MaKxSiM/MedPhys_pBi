@@ -112,7 +112,7 @@ void MySteppingAction::UserSteppingAction(const G4Step* step)
         ibigger = i_z_fluence;
       };
       for (int i=ismaller; i<ibigger;i++){
-        if(En>0.00){ //keeping only fluences for particles with  Energy >10 keV
+        if(En>0.01){ //keeping only fluences for particles with  Energy >10 keV
         man->FillNtupleIColumn(0,0,G4RunManager::GetRunManager()->GetCurrentEvent()->GetEventID());
         man->FillNtupleDColumn(0,1,xi);
         man->FillNtupleDColumn(0,2,yi);

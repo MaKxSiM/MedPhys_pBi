@@ -51,6 +51,7 @@ class EventAction : public G4UserEventAction
     void AddEdep(G4double edep, G4int i) { fEdepV.at(i) += edep; };
 
     G4double xprime, yprime, zprime, distdEdx;
+    //G4ThreeVector  VPostion;
     std::vector<G4double> vdEdz;
     std::vector<G4double> vEn;
 
