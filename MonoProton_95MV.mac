@@ -1,0 +1,39 @@
+####
+#### GCR spectra from CREME96
+####
+##########################
+#define incident particle
+#/gps/List
+/gps/particle proton
+##########################
+# type and distribution of beam
+/gps/pos/type Plane
+/gps/pos/shape Square
+##########################
+# Set angular distribution
+#/gps/ang/type cos
+#/gps/ang/mintheta 0. deg
+#/gps/ang/maxtheta 0.003 deg
+#/gps/ang/minphi 0. deg
+#/gps/ang/maxphi 360. deg
+##########################
+# Setting position
+/gps/pos/centre 0. 0. -5. cm
+/gps/pos/halfx 0.05 cm
+/gps/pos/halfy 0.05 cm
+/gps/direction 0. 0. 1.
+#
+#/gps/ang/type cos
+##########################
+/gps/ene/type Arb
+#/gps/ene/type Mono
+#/gps/ene/mono 0.1 MeV
+/gps/ene/diffspec 1
+/gps/hist/type arb
+##################################
+/gps/hist/point	    95.00    0.00
+/gps/hist/point	    95.01    1.00
+#####################################
+/gps/hist/inter Lin
+##################### 
+

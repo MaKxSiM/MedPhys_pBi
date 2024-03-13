@@ -1,0 +1,147 @@
+####
+#### GCR spectra from CREME96
+####
+##########################
+#define incident particle
+#/gps/List
+/gps/particle gamma
+##########################
+# type and distribution of beam
+/gps/pos/type Plane
+/gps/pos/shape Square
+##########################
+# Set angular distribution
+#/gps/ang/type cos
+#/gps/ang/mintheta 0. deg
+#/gps/ang/maxtheta 0.003 deg
+#/gps/ang/minphi 0. deg
+#/gps/ang/maxphi 360. deg
+##########################
+# Setting position
+/gps/pos/centre 0. 0. -5. cm
+/gps/pos/halfx 0.05 cm
+/gps/pos/halfy 0.05 cm
+/gps/direction 0. 0. 1.
+#
+#/gps/ang/type cos
+##########################
+/gps/ene/type Arb
+#/gps/ene/type Mono
+#/gps/ene/mono 0.1 MeV
+/gps/ene/diffspec 1
+/gps/hist/type arb
+##################################
+/gps/hist/point	     0.00    0.0
+/gps/hist/point	0.05	1.590E-05
+/gps/hist/point	0.10	8.232E-05
+/gps/hist/point	0.15	2.950E-04
+/gps/hist/point	0.20	5.962E-04
+/gps/hist/point	0.25	8.113E-04
+/gps/hist/point 0.30	9.220E-04
+/gps/hist/point 0.35	9.639E-04
+/gps/hist/point	0.40	9.731E-04
+/gps/hist/point 0.45	9.533E-04
+/gps/hist/point 0.50	9.814E-04
+/gps/hist/point 0.55	8.996E-04
+/gps/hist/point 0.60	8.702E-04
+/gps/hist/point	0.65	8.383E-04
+/gps/hist/point 0.70	8.084E-04
+/gps/hist/point 0.75	7.799E-04
+/gps/hist/point	0.80	7.553E-04
+/gps/hist/point	0.85	7.270E-04
+/gps/hist/point	0.90	6.972E-04
+/gps/hist/point	0.95	6.727E-04
+/gps/hist/point	1.00	6.513E-04
+/gps/hist/point	1.05	6.297E-04
+/gps/hist/point	1.10	6.053E-04
+/gps/hist/point	1.15	5.843E-04
+/gps/hist/point	1.20	5.630E-04
+/gps/hist/point	1.25	5.452E-04
+/gps/hist/point	1.30	5.254E-04
+/gps/hist/point	1.35	5.106E-04
+/gps/hist/point	1.40	4.901E-04
+/gps/hist/point	1.45	4.735E-04
+/gps/hist/point	1.50	4.597E-04
+/gps/hist/point	1.55	4.457E-04
+/gps/hist/point	1.60	4.283E-04
+/gps/hist/point	1.65	4.129E-04
+/gps/hist/point	1.70	4.001E-04
+/gps/hist/point	1.75	3.850E-04
+/gps/hist/point	1.80	3.734E-04
+/gps/hist/point	1.85	3.591E-04	
+/gps/hist/point	1.90	3.506E-04
+/gps/hist/point	1.95	3.377E-04
+/gps/hist/point	2.00	3.249E-04
+/gps/hist/point	2.05	3.158E-04
+/gps/hist/point	2.10	3.058E-04
+/gps/hist/point	2.15	2.974E-04
+/gps/hist/point	2.20	2.867E-04
+/gps/hist/point	2.25	2.776E-04
+/gps/hist/point	2.30	2.686E-04
+/gps/hist/point	2.35	2.592E-04
+/gps/hist/point	2.40	2.519E-04
+/gps/hist/point	2.45	2.438E-04
+/gps/hist/point	2.50	2.371E-04
+/gps/hist/point	2.55	2.286E-04
+/gps/hist/point	2.60	2.233E-04
+/gps/hist/point	2.65	2.154E-04
+/gps/hist/point 2.70	2.086E-04
+/gps/hist/point	2.75	2.037E-04
+/gps/hist/point	2.80	1.972E-04
+/gps/hist/point	2.85	1.919E-04
+/gps/hist/point	2.90	1.845E-04
+/gps/hist/point	2.95	1.797E-04
+/gps/hist/point	3.00	1.743E-04
+/gps/hist/point	3.05	1.699E-04	
+/gps/hist/point	3.10	1.646E-04
+/gps/hist/point	3.15	1.599E-04
+/gps/hist/point	3.20	1.561E-04
+/gps/hist/point	3.25	1.492E-04
+/gps/hist/point	3.30	1.461E-04
+/gps/hist/point	3.35	1.414E-04
+/gps/hist/point	3.40	1.377E-04
+/gps/hist/point	3.45	1.329E-04
+/gps/hist/point	3.50	1.292E-04
+/gps/hist/point	3.55	1.255E-04
+/gps/hist/point	3.60	1.222E-04
+/gps/hist/point	3.65	1.180E-04
+/gps/hist/point	3.70	1.153E-04
+/gps/hist/point	3.75	1.118E-04
+/gps/hist/point	3.80	1.072E-04
+/gps/hist/point	3.85	1.042E-04
+/gps/hist/point	3.90	1.008E-04
+/gps/hist/point	3.95	9.805E-05
+/gps/hist/point	4.00	9.493E-05
+/gps/hist/point	4.05	9.166E-05
+/gps/hist/point	4.10	8.842E-05
+/gps/hist/point	4.15	8.535E-05
+/gps/hist/point	4.20	8.318E-05
+/gps/hist/point	4.25	7.986E-05	
+/gps/hist/point	4.30	7.744E-05
+/gps/hist/point	4.35	7.325E-05
+/gps/hist/point	4.40	7.100E-05
+/gps/hist/point	4.45	6.847E-05
+/gps/hist/point	4.50	6.620E-05
+/gps/hist/point	4.55	6.267E-05
+/gps/hist/point 4.60	5.988E-05
+/gps/hist/point	4.65	5.706E-05
+/gps/hist/point	4.70	5.494E-05
+/gps/hist/point	4.75	5.085E-05
+/gps/hist/point	4.80	4.896E-05
+/gps/hist/point	4.85	4.627E-05	
+/gps/hist/point	4.90	4.306E-05
+/gps/hist/point	4.95	4.035E-05
+/gps/hist/point	5.00	3.728E-05
+/gps/hist/point	5.05	3.462E-05
+/gps/hist/point	5.10	3.116E-05
+/gps/hist/point	5.15	2.776E-05
+/gps/hist/point	5.20	2.452E-05
+/gps/hist/point	5.25	2.087E-05
+/gps/hist/point 5.30	1.606E-05
+/gps/hist/point 5.35	9.496E-06
+/gps/hist/point 5.40	3.426E-06
+/gps/hist/point 5.45	1.263E-06
+#####################################
+/gps/hist/inter Lin
+##################### 
+
