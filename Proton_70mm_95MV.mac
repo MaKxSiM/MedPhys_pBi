@@ -1,0 +1,60 @@
+####
+#### GCR spectra from CREME96
+####
+##########################
+#define incident particle
+#/gps/List
+/gps/particle proton
+##########################
+# type and distribution of beam
+/gps/pos/type Plane
+/gps/pos/shape Square
+##########################
+# Set angular distribution
+#/gps/ang/type cos
+#/gps/ang/mintheta 0. deg
+#/gps/ang/maxtheta 0.003 deg
+#/gps/ang/minphi 0. deg
+#/gps/ang/maxphi 360. deg
+##########################
+# Setting position
+/gps/pos/centre 0. 0. -5. cm
+/gps/pos/halfx 0.05 cm
+/gps/pos/halfy 0.05 cm
+/gps/direction 0. 0. 1.
+#
+#/gps/ang/type cos
+##########################
+/gps/ene/type Arb
+#/gps/ene/type Mono
+#/gps/ene/mono 0.1 MeV
+/gps/ene/diffspec 1
+/gps/hist/type arb
+##################################
+/gps/hist/point    0.00000    0.00000
+/gps/hist/point    1.00000    0.01496
+/gps/hist/point    2.00000    0.02320
+/gps/hist/point    3.00000    0.02976
+/gps/hist/point    4.00000    0.04024
+/gps/hist/point    5.00000    0.05330
+/gps/hist/point    6.00000    0.06534
+/gps/hist/point    7.00000    0.07046
+/gps/hist/point    8.00000    0.07760
+/gps/hist/point    9.00000    0.07786
+/gps/hist/point   10.00000    0.07230
+/gps/hist/point   11.00000    0.05842
+/gps/hist/point   12.00000    0.04400
+/gps/hist/point   13.00000    0.02660
+/gps/hist/point   14.00000    0.01438
+/gps/hist/point   15.00000    0.00660
+/gps/hist/point   16.00000    0.00194
+/gps/hist/point   17.00000    0.00062
+/gps/hist/point   18.00000    0.00012
+/gps/hist/point   19.00000    0.00005
+/gps/hist/point   20.00000    0.00002
+/gps/hist/point   21.00000    0.00001
+/gps/hist/point   22.00000    0.00001
+#####################################
+/gps/hist/inter Lin
+##################### 
+

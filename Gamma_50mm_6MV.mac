@@ -1,0 +1,129 @@
+####
+#### GCR spectra from CREME96
+####
+##########################
+#define incident particle
+#/gps/List
+/gps/particle gamma
+##########################
+# type and distribution of beam
+/gps/pos/type Plane
+/gps/pos/shape Square
+##########################
+# Set angular distribution
+#/gps/ang/type cos
+#/gps/ang/mintheta 0. deg
+#/gps/ang/maxtheta 0.003 deg
+#/gps/ang/minphi 0. deg
+#/gps/ang/maxphi 360. deg
+##########################
+# Setting position
+/gps/pos/centre 0. 0. -5. cm
+/gps/pos/halfx 0.05 cm
+/gps/pos/halfy 0.05 cm
+/gps/direction 0. 0. 1.
+#
+#/gps/ang/type cos
+##########################
+/gps/ene/type Arb
+#/gps/ene/type Mono
+#/gps/ene/mono 0.1 MeV
+/gps/ene/diffspec 1
+/gps/hist/type arb
+##################################
+/gps/hist/point    0.00000    0.00000
+/gps/hist/point    0.06000    0.05919
+/gps/hist/point    0.12000    0.31971
+/gps/hist/point    0.18000    0.50775
+/gps/hist/point    0.24000    0.63136
+/gps/hist/point    0.30000    0.58969
+/gps/hist/point    0.36000    0.51370
+/gps/hist/point    0.42000    0.49239
+/gps/hist/point    0.48000    0.48856
+/gps/hist/point    0.54000    0.49859
+/gps/hist/point    0.60000    0.44881
+/gps/hist/point    0.66000    0.43165
+/gps/hist/point    0.72000    0.40281
+/gps/hist/point    0.78000    0.38862
+/gps/hist/point    0.84000    0.37165
+/gps/hist/point    0.90000    0.35417
+/gps/hist/point    0.96000    0.33561
+/gps/hist/point    1.02000    0.31731
+/gps/hist/point    1.08000    0.30547
+/gps/hist/point    1.14000    0.29098
+/gps/hist/point    1.20000    0.27879
+/gps/hist/point    1.26000    0.26823
+/gps/hist/point    1.32000    0.25402
+/gps/hist/point    1.38000    0.24846
+/gps/hist/point    1.44000    0.23275
+/gps/hist/point    1.50000    0.22349
+/gps/hist/point    1.56000    0.21505
+/gps/hist/point    1.62000    0.20555
+/gps/hist/point    1.68000    0.19586
+/gps/hist/point    1.74000    0.18936
+/gps/hist/point    1.80000    0.18388
+/gps/hist/point    1.86000    0.17687
+/gps/hist/point    1.92000    0.16969
+/gps/hist/point    1.98000    0.16054
+/gps/hist/point    2.04000    0.15642
+/gps/hist/point    2.10000    0.15028
+/gps/hist/point    2.16000    0.14552
+/gps/hist/point    2.22000    0.13954
+/gps/hist/point    2.28000    0.13506
+/gps/hist/point    2.34000    0.12758
+/gps/hist/point    2.40000    0.12535
+/gps/hist/point    2.46000    0.11795
+/gps/hist/point    2.52000    0.11249
+/gps/hist/point    2.58000    0.11202
+/gps/hist/point    2.64000    0.10694
+/gps/hist/point    2.70000    0.10119
+/gps/hist/point    2.76000    0.09920
+/gps/hist/point    2.82000    0.09651
+/gps/hist/point    2.88000    0.09443
+/gps/hist/point    2.94000    0.08670
+/gps/hist/point    3.00000    0.08599
+/gps/hist/point    3.06000    0.08482
+/gps/hist/point    3.12000    0.08080
+/gps/hist/point    3.18000    0.07607
+/gps/hist/point    3.24000    0.07488
+/gps/hist/point    3.30000    0.07272
+/gps/hist/point    3.36000    0.06963
+/gps/hist/point    3.42000    0.06801
+/gps/hist/point    3.48000    0.06521
+/gps/hist/point    3.54000    0.06390
+/gps/hist/point    3.60000    0.06035
+/gps/hist/point    3.66000    0.05774
+/gps/hist/point    3.72000    0.05631
+/gps/hist/point    3.78000    0.05544
+/gps/hist/point    3.84000    0.05118
+/gps/hist/point    3.90000    0.04953
+/gps/hist/point    3.96000    0.04749
+/gps/hist/point    4.02000    0.04592
+/gps/hist/point    4.08000    0.04453
+/gps/hist/point    4.14000    0.04300
+/gps/hist/point    4.20000    0.04046
+/gps/hist/point    4.26000    0.03940
+/gps/hist/point    4.32000    0.03976
+/gps/hist/point    4.38000    0.03731
+/gps/hist/point    4.44000    0.03456
+/gps/hist/point    4.50000    0.03300
+/gps/hist/point    4.56000    0.03217
+/gps/hist/point    4.62000    0.02905
+/gps/hist/point    4.68000    0.02887
+/gps/hist/point    4.74000    0.02682
+/gps/hist/point    4.80000    0.02486
+/gps/hist/point    4.86000    0.02373
+/gps/hist/point    4.92000    0.02174
+/gps/hist/point    4.98000    0.01953
+/gps/hist/point    5.04000    0.01740
+/gps/hist/point    5.10000    0.01584
+/gps/hist/point    5.16000    0.01372
+/gps/hist/point    5.22000    0.01246
+/gps/hist/point    5.28000    0.01002
+/gps/hist/point    5.34000    0.00754
+/gps/hist/point    5.40000    0.00355
+/gps/hist/point    5.46000    0.00104
+#####################################
+/gps/hist/inter Lin
+##################### 
+
